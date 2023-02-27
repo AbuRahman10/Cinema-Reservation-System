@@ -1,5 +1,4 @@
-from TOi.Opdracht_3.Circular import *
-
+from Abu_ADT.Opdracht_3.Circular import *
 
 class LinkedChainTable:
 
