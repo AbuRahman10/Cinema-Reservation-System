@@ -56,7 +56,7 @@ elif admin == "thomas":
     from Thomas_ADT.TwoTreeFourWapper import *
 
 elif admin == "sejar":
-    admin == "Sejar"
+    admin = "Sejar"
     print()
     print("Searching for Sejar")
     print("-------", end="")
@@ -72,7 +72,7 @@ elif admin == "sejar":
     from Ahmed_ADT.heap import *
 
 elif admin == "ahmed":
-    admin == "Ahmed"
+    admin = "Ahmed"
     print()
     print("Searching for Ahmed")
     print("-------", end="")
