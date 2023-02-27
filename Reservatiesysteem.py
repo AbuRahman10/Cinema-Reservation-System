@@ -25,7 +25,7 @@ while admin not in admins:
 if admin == "abu":
     admin = "Abu"
     print()
-    print("Searching for Abu")
+    print("Searching for " + admin)
     print("------",end="")
     time.sleep(0.7)
     print("------", end="")
@@ -43,7 +43,7 @@ if admin == "abu":
 elif admin == "thomas":
     admin = "Thomas"
     print()
-    print("Searching for Thomas")
+    print("Searching for " + admin)
     print("-------", end="")
     time.sleep(0.7)
     print("-------", end="")
@@ -60,7 +60,7 @@ elif admin == "thomas":
 elif admin == "sejar":
     admin = "Sejar"
     print()
-    print("Searching for Sejar")
+    print("Searching for " + admin)
     print("-------", end="")
     time.sleep(0.7)
     print("-------", end="")
@@ -77,7 +77,7 @@ elif admin == "sejar":
 elif admin == "ahmed":
     admin = "Ahmed"
     print()
-    print("Searching for Ahmed")
+    print("Searching for " + admin)
     print("-------", end="")
     time.sleep(0.7)
     print("-------", end="")
