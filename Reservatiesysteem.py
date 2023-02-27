@@ -32,11 +32,12 @@ if admin == "abu":
     time.sleep(0.7)
     print("------")
     time.sleep(0.7)
+    from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
     print("Hashmap Detected")
     print("------------------")
     time.sleep(0.7)
     print("Hashmap Imported")
-    from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
+
 
 
 elif admin == "thomas":
@@ -49,11 +50,12 @@ elif admin == "thomas":
     time.sleep(0.7)
     print("-------")
     time.sleep(0.7)
+    from Thomas_ADT.TwoTreeFourWapper import *
     print("2-3-4 Tree Detected")
     print("---------------------")
     time.sleep(0.7)
     print("2-3-4 Tree Imported")
-    from Thomas_ADT.TwoTreeFourWapper import *
+
 
 elif admin == "sejar":
     admin = "Sejar"
@@ -65,11 +67,12 @@ elif admin == "sejar":
     time.sleep(0.7)
     print("-------")
     time.sleep(0.7)
+    from Sejar_ADT.Heap import *
     print("Heap Detected")
     print("---------------------")
     time.sleep(0.7)
     print("Heap Imported")
-    from Ahmed_ADT.heap import *
+
 
 elif admin == "ahmed":
     admin = "Ahmed"
@@ -81,11 +84,12 @@ elif admin == "ahmed":
     time.sleep(0.7)
     print("-------")
     time.sleep(0.7)
+    from Ahmed_ADT.heap import *
     print("Heap Detected")
     print("---------------------")
     time.sleep(0.7)
     print("Heap Imported")
-    from Ahmed_ADT.heap import *
+
 
 
 class Reservatiesysteem:
