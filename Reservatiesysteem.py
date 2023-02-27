@@ -22,9 +22,15 @@ if admin == "abu":
         print("Hashmap Imported")
 
 
-
 elif admin == "thomas":
     admin = "Thomas"
+    print("----------------")
+    yes_no = input("2-3-4-Tree Available, Import? (yes/no): ")
+    yes_no = yes_no.lower()
+    if yes_no == "yes":
+        from Thomas_ADT.TwoTreeFourWapper import *
+        print("-----------------")
+        print("2-3-4-Tree Imported")
 
 elif admin == "sejar":
     admin = "Sejar"
