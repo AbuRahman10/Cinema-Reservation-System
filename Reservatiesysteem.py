@@ -1,6 +1,6 @@
-from Abu_ADT.Opdracht_3.BST import *
-from Abu_ADT.Opdracht_3.Circular import *
-from Abu_ADT.Opdracht_2.MyQueue import *
+from Abu_ADT.Opdracht_3.BST import *  # import general BST
+from Abu_ADT.Opdracht_3.Circular import * # import general Linked Chain
+from Abu_ADT.Opdracht_2.MyQueue import * # import general Queue
 from Film import *
 from Gebruiker import *
 from Vertoning import *
