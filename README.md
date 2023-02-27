@@ -2,7 +2,7 @@
 
 GAS Groeps Toepassings Opdracht (TOg)
 
-Deze opdracht gaat over een reservatie Systeem en specifiek voor Kinepolis. We hebben gewerkt met 
+Deze opdracht gaat over een reservatie systeem en specifiek voor Kinepolis. We hebben gewerkt met zelf-geïmplementeerde ADT's.
 
 # Groepsleden:
 
