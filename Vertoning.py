@@ -22,7 +22,14 @@ class Vertoning:
         :param filmid: een int die het id van de film weergeeft
         :return: true als het toegevoegd is aan de BST
         """
-        pass
+        self.id = id
+        self.zaalnummer = zaalnummer
+        self.slot = slot
+        self.datum = datum
+        self.filmid = filmid
+
+    def zoek_vertoning(self,id):
+        return str(self.filmid)
 
     def get_vrijeplaatsen(self,Zaal):
         """
