@@ -128,9 +128,20 @@ class Reservatiesysteem:
         self.gebruikers.searchTreeInsert((id,input))
 
         print(gebruiker.zoek_gebruiker(id) + " is gemaakt!")
-        print("helllo")
         return True
 
+    def addFilm(self,id,titel,rating):
+
+        film = Film()
+        if self.films.retrieve(id)[1]:
+            print(film.zoek_film(id) + " bestaat al!")
+            return False
+
+        input = film.voegfilmtoe(id,titel,rating)
+        self.films.insert(id,input)
+
+        print(film.zoek_film(id) + " is gemaakt!")
+        return True
 
 
 

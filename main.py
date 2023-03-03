@@ -12,6 +12,8 @@ r = Reservatiesysteem()
 
 r.addGebruiker(1,"sejar","dindar","sejar@10")
 
+r.addFilm(1,"thematrix",6.1)
+
 
 
 
