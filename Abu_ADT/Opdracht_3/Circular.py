@@ -147,7 +147,7 @@ class LinkedChain:
         :return: true als de node op de gevraagde index verwijdert kan worden
         """
         if self.isEmpty():
-            return False,False
+            return None,False
         elif index <= self.size + 1 and index > 0:
 
             current = self.head
@@ -159,7 +159,7 @@ class LinkedChain:
                     current = current.next
             return current.item, True
         else:
-            return False,False
+            return None,False
 
     def delete(self,index):
         """

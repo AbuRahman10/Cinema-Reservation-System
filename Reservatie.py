@@ -1,3 +1,6 @@
+from typing import Any
+
+
 class Reservatie:
     ##data
     def __init__(self):
@@ -21,6 +24,11 @@ class Reservatie:
         :param aantalplaatsen: een int voor het aantal plaatsen
         :return: true als het succesvol was.
         """
+        self.id = id
+        self.userid = userid
+        self.timestamp = timestamp
+        self.vertoningid = vertoningid
+        self.aantalplaatsen = aantalplaatsen
 
     def get_zaal(self):
         """
@@ -42,3 +50,4 @@ class Reservatie:
         :param id: unieke string
         :return: true als het gevonden is else false.
         """
+        return self.userid

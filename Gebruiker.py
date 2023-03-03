@@ -1,4 +1,4 @@
-
+import Reservatiesysteem
 class Gebruiker:
     ##data
     def __init__(self):
@@ -19,7 +19,14 @@ class Gebruiker:
         :param emailadres: een string als email.
         :return: return true als de gerbuiker toegevoegd is.
         """
-        pass
+
+
+        self.id = id  # nog geen id gekent
+        self.voornaam = voornaam  # nog geen voornaamgekent
+        self.achternaam = achternaam  # nog geen achernaam gekent
+        self.emailadres = emailadres  # nog geen emailadres gekent.
+
+
 
     def verwijder_gebruiker(self,id):
         """
@@ -34,3 +41,5 @@ class Gebruiker:
         :param id: unieke id
         :return: true als het gevonden is else false.
         """
+
+        return self.emailadres

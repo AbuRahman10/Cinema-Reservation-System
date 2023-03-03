@@ -17,7 +17,10 @@ class Film:
         :param rating: een float
         :return: returnt true als het toegevoed is aan de BST.
         """
-        pass
+
+        self.id = id  # nog geen film ID toegekent
+        self.titel = titel  # nog geen titel toegekent
+        self.rating = rating  # nog geen rating toegekent aan de film.
 
     def zoek_film(self,id):
         """
@@ -27,7 +30,7 @@ class Film:
         :param id: is de integer waar op gezocht wordt.
         :return: waarde op de ID
         """
-        pass
+        return self.titel
 
     def verwijder_film(self,id):
         """

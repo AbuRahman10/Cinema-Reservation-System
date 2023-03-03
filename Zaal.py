@@ -16,7 +16,9 @@ class Zaal:
         :param plaatsen: een nummer voor het aantal plaatsen
         :return: True als het succesvol is toegevoegd aan de ketting
         """
-        pass
+        self.nummer = zaalnummer
+        self.plaatsen = plaatsen
+
 
     def vind_zaal(self,zaalnummer):
         """
@@ -25,7 +27,8 @@ class Zaal:
         :param zaalnummer: De unieke nummer van de zaal.
         :return: returnt tuple met zaalnummer en aantal plaatsen.
         """
-        pass
+        return str(zaalnummer)
+
 
     def kom_binnen(self,Reservatie):
         """
