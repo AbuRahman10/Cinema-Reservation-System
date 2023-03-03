@@ -128,6 +128,7 @@ class Reservatiesysteem:
         self.gebruikers.searchTreeInsert((id,input))
 
         print(gebruiker.zoek_gebruiker(id) + " is gemaakt!")
+        print("helllo")
         return True
 
 
