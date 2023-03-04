@@ -125,7 +125,7 @@ class Reservatiesysteem:
             return False
 
         input = gebruiker.maak_gebruiker(id, voornaam, achternaam, emailadres)
-        self.gebruikers.searchTreeInsert((id, input))
+        self.gebruikers.searchTreeInsert((id, input)) # hier moeten we de object zelf inserten ipv input
 
         print(gebruiker.zoek_gebruiker(id) + " is gemaakt!")
         return True
