@@ -121,11 +121,11 @@ class Reservatiesysteem:
 
         gebruiker = Gebruiker()
         if self.gebruikers.searchTreeRetrieve(id)[1]:
-            print(gebruiker.zoek_gebruiker(id) + " bestaat al!")
+            print(str(emailadres + " bestaat al!"))
             return False
 
-        input = gebruiker.maak_gebruiker(id, voornaam, achternaam, emailadres)
-        self.gebruikers.searchTreeInsert((id, input)) # hier moeten we de object zelf inserten ipv input
+        gebruiker.maak_gebruiker(id, voornaam, achternaam, emailadres)
+        self.gebruikers.searchTreeInsert((id, gebruiker)) # hier moeten we de object zelf inserten ipv input
 
         print(gebruiker.zoek_gebruiker(id) + " is gemaakt!")
         return True
@@ -134,11 +134,11 @@ class Reservatiesysteem:
 
         film = Film()
         if self.films.retrieve(id)[1]:
-            print(film.zoek_film(id) + " bestaat al!")
+            print(titel + " bestaat al!")
             return False
 
-        input = film.voegfilmtoe(id, titel, rating)
-        self.films.insert(id, input)
+        film.voegfilmtoe(id, titel, rating)
+        self.films.insert(id, film)
 
         print(film.zoek_film(id) + " is gemaakt!")
         return True
@@ -146,11 +146,11 @@ class Reservatiesysteem:
     def addReservatie(self, id, userid, timestamp, vertoningid, aantalplaatsen):
         reservatie = Reservatie()
         if self.reservaties.retrieve(id)[1]:
-            print("reservatie van" + reservatie.zoek_reservatie(id) + " Bestaat al")
+            print("reservatie van" + userid + " Bestaat al")
             return False
 
-        input = reservatie.maak_reservatie(id, userid, timestamp, vertoningid, aantalplaatsen)
-        self.reservaties.insert(id, input)
+        reservatie.maak_reservatie(id, userid, timestamp, vertoningid, aantalplaatsen)
+        self.reservaties.insert(id, reservatie)
         print("reservatie van " + reservatie.zoek_reservatie(id) + " is aangemaakt!")
         return True
 
@@ -160,8 +160,8 @@ class Reservatiesysteem:
             print(vertoning.zoek_vertoning(id) + " Bestaat al")
             return False
 
-        input = vertoning.maak_vertoning(id,zaalnummer,slot,datum,filmid)
-        self.vertoningen.insert(id,input)
+        vertoning.maak_vertoning(id,zaalnummer,slot,datum,filmid)
+        self.vertoningen.insert(id,vertoning)
         print("film met " + vertoning.zoek_vertoning(id) + " id is aangemaakt!")
         return True
 
@@ -171,7 +171,7 @@ class Reservatiesysteem:
             print(zaal.vind_zaal(id) + " Bestaat al")
             return False
 
-        input = zaal.maak_zaal(zaalnummer,plaatsen)
-        self.vertoningen.insert(zaalnummer, input)
+        zaal.maak_zaal(zaalnummer,plaatsen)
+        self.vertoningen.insert(zaalnummer, zaal)
         print("zaal "+ zaal.vind_zaal(zaalnummer) + " is aangemaakt!")
         return True
