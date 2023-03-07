@@ -7,4 +7,4 @@ my_dict = {
     'ZAAL': [1, 2, 3]
 }
 my_data = pd.DataFrame(data=my_dict)
-my_data.to_html('C:/Users/thomg/PycharmProjects/SCHOOL/MainTOg/test.html')
+my_data.to_html('C:/Users/thomg/PycharmProjects/SCHOOL/MainTOg/test.html',index = False)
