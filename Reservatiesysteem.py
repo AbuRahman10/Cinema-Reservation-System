@@ -127,7 +127,7 @@ class Reservatiesysteem:
         gebruiker.maak_gebruiker(id, voornaam, achternaam, emailadres)
         self.gebruikers.searchTreeInsert((id, gebruiker)) # hier moeten we de object zelf inserten ipv input
 
-        print(gebruiker.zoek_gebruiker(id) + " is gemaakt!")
+        print("Gebruiker met id " + str(id) + " is gemaakt!")
         return True
 
     def addFilm(self, id, titel, rating):
@@ -140,38 +140,38 @@ class Reservatiesysteem:
         film.voegfilmtoe(id, titel, rating)
         self.films.insert(id, film)
 
-        print(film.zoek_film(id) + " is gemaakt!")
+        print(titel + " is gemaakt!")
         return True
 
     def addReservatie(self, id, userid, timestamp, vertoningid, aantalplaatsen):
         reservatie = Reservatie()
         if self.reservaties.retrieve(id)[1]:
-            print("reservatie van" + userid + " Bestaat al")
+            print("Reservatie van " + userid + " Bestaat al")
             return False
 
         reservatie.maak_reservatie(id, userid, timestamp, vertoningid, aantalplaatsen)
         self.reservaties.insert(id, reservatie)
-        print("reservatie van " + reservatie.zoek_reservatie(id) + " is aangemaakt!")
+        print("Reservatie van " + str(userid) + " is aangemaakt!")
         return True
 
     def addVertoning(self,id,zaalnummer,slot,datum,filmid):
         vertoning = Vertoning()
         if self.vertoningen.retrieve(id)[1]:
-            print(vertoning.zoek_vertoning(id) + " Bestaat al")
+            print("Vertoning met id", id, "bestaat al")
             return False
 
         vertoning.maak_vertoning(id,zaalnummer,slot,datum,filmid)
         self.vertoningen.insert(id,vertoning)
-        print("film met " + vertoning.zoek_vertoning(id) + " id is aangemaakt!")
+        print("Film met " + str(filmid) + " id is aangemaakt!")
         return True
 
     def addZaal(self,zaalnummer,plaatsen):
         zaal = Zaal()
         if self.zalen.retrieve(id)[1]:
-            print(zaal.vind_zaal(id) + " Bestaat al")
+            print(str(zaalnummer) + " Bestaat al")
             return False
 
         zaal.maak_zaal(zaalnummer,plaatsen)
         self.vertoningen.insert(zaalnummer, zaal)
-        print("zaal "+ zaal.vind_zaal(zaalnummer) + " is aangemaakt!")
+        print("zaal " + str(zaalnummer) + " is aangemaakt!")
         return True
