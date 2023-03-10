@@ -19,6 +19,8 @@ r.addFilm(1,"The Matrix",6.1)
 print()
 r.addFilm(2,"Inception",7.1)
 print()
+r.addFilm(3,'Maze Runner',4.3)
+print()
 r.addReservatie(1,"TG","12","1","4")
 print()
 r.addVertoning(1,20,4,"2 oktober", 1)
@@ -27,11 +29,17 @@ r.addZaal(10,200)
 print()
 r.addVertoning(1,20,4,"2 oktober", 1)
 
-
+filmlist = []
+idlist = []
+i = 1
+while i <= r.films.getLength():
+    filmlist.append(r.films.retrieve(i)[0].zoek_film(i))
+    idlist.append(i)
+    i+=1
 
 my_dict = {
-    'MOVIE': [r.films.retrieve(1)[0].zoek_film(1),r.films.retrieve(2)[0].zoek_film(2),'Maze Runner'],
-    'ID': [r.films.retrieve(1)[0].id, 2, 3],
+    'MOVIE': filmlist,
+    'ID': idlist,
     'TIJD': [30, 40, 50],
     'ZAAL': [1, 2, 3]
 }

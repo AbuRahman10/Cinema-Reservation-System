@@ -10,7 +10,6 @@ from Vertoning import *
 from Zaal import *
 from Reservatie import *
 
-
 # Keuze Geadvanceerde ADT's
 # admin = input("Choice Advanced ADT's - Abu | Sejar | Ahmed | Thomas : ")
 # admin = admin.lower()
@@ -101,7 +100,6 @@ from Reservatie import *
 #     print("---------------------")
 #     time.sleep(0.7)
 #     print("Heap Imported")
-
 
 class Reservatiesysteem:
 

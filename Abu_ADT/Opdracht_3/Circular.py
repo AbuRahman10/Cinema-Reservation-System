@@ -148,7 +148,7 @@ class LinkedChain:
         """
         if self.isEmpty():
             return None,False
-        elif index <= self.size + 1 and index > 0:
+        elif index < self.size + 1 and index > 0:
 
             current = self.head
 
