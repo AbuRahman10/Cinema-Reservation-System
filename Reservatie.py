@@ -4,7 +4,6 @@ from typing import Any
 class Reservatie:
     ##data
     def __init__(self):
-        self.id = None #nog geen reservatie id
         self.userid = None # nog geen user id
         self.timestamp = None #nog geen timpstamp
         self.vertoningid = None #nog geen vertonings id
@@ -24,30 +23,21 @@ class Reservatie:
         :param aantalplaatsen: een int voor het aantal plaatsen
         :return: true als het succesvol was.
         """
-        self.id = id
+
         self.userid = userid
         self.timestamp = timestamp
         self.vertoningid = vertoningid
         self.aantalplaatsen = aantalplaatsen
 
-    def get_zaal(self):
-        """
-        hier zoekt men de zaal die bij de reservatie hoort. Hierdoor kan mn de zaal returnen
-        :return: de zaal nummer.
-        """
-        pass
-
-    def verwijder_reservatie(self,id):
-        """
-        verwijderde reservatie op id. hierdoor wordt deze id vrij gegevenen en uit de ketting gehaald.
-        :param id: unieke string
-        :return: true als het succesvol verwijdert is.
-        """
-
-    def zoek_reservatie(self,id):
-        """
-        zoekt op de unieke id naar de film
-        :param id: unieke string
-        :return: true als het gevonden is else false.
-        """
+    def getUserid(self):
         return self.userid
+
+    def getTimestamp(self):
+        return self.timestamp
+
+    def getVertoningid(self):
+        return self.vertoningid
+
+    def getPlaatsen(self):
+        return self.aantalplaatsen
+

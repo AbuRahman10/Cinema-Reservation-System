@@ -22,6 +22,19 @@ class Film:
         self.titel = titel  # nog geen titel toegekent
         self.rating = rating  # nog geen rating toegekent aan de film.
 
+
+    def get_id(self):
+
+        return self.id
+
+    def get_titel(self):
+
+        return self.titel
+
+    def get_rating(self):
+
+        return self.rating
+
     def zoek_film(self,id):
         """
         er wordt gezocht door de BST van films
@@ -30,13 +43,8 @@ class Film:
         :param id: is de integer waar op gezocht wordt.
         :return: waarde op de ID
         """
-        return self.titel
-
-    def verwijder_film(self,id):
-        """
-        De variabele wordt meegegeven als id van de film deze zal moeten verwijdert worden.
-        :param id: string
-        :return: true als deze succesvol verwijdert is.
-        """
-
+        if id == self.id:
+            return self.titel
+        else:
+            print("Geen film met deze " + str(id))
 

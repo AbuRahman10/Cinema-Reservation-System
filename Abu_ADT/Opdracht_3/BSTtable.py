@@ -1,5 +1,4 @@
-from BST import *
-
+from Abu_ADT.Opdracht_3.BST import *
 class BSTTable:
 
     def __init__(self):

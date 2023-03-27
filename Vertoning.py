@@ -1,3 +1,6 @@
+from datetime import datetime
+from Clock import timer
+
 class Vertoning:
     ##data
     def __init__(self):
@@ -7,9 +10,11 @@ class Vertoning:
         self.datum = None #nog geen datum aan toegekent
         self.filmid = None #nog geen filmid aan toegekent.
         self.vrijeplaatsen = None #vrijplaatsen nog niet bekent
+        self.bezig = False
+        self.plaatsenbezet = 0
 
     ##functionalteit
-    def maak_vertoning(self,id,zaalnummer,slot,datum,filmid):
+    def maak_vertoning(self,id,zaalnummer,slot,datum,filmid, vrijeplaatsen):
         """
         maakt een film aan met een id, op een zaalnummer, met een bepaald tijdsslot,
         op een bepaalde datum, met een bepaald filmid.
@@ -27,23 +32,61 @@ class Vertoning:
         self.slot = slot
         self.datum = datum
         self.filmid = filmid
+        self.vrijeplaatsen = vrijeplaatsen
 
-    def zoek_vertoning(self,id):
-        return str(self.filmid)
 
-    def get_vrijeplaatsen(self,Zaal):
-        """
-        roepen de functie aan in zaal de de tuple return voor de zaalnummer en aantal plaatsen.
-        dan check je hoeveel keer deze film is gekozen is deze kleiner of gelijk aan het aantal plaatsen.
-        neem de plaatsen - de hoeveelkeer gekozen. dat zijn de vrijeplaatsen.
-        :param zaalnummer: een int die de zaal aanduid
-        :return: de int van vrije plaatsen.
-        """
-        pass
+    def get_id(self):
 
-    def get_film(self,Film):
+        return self.id
+
+    def get_zaalnummer(self):
+
+        return self.zaalnummer
+
+    def get_datum(self):
+
+        return self.datum
+
+    def get_slot(self):
+
+        return self.slot
+
+    def get_filmid(self):
+
+        return self.filmid
+
+    def get_vrije_plaatsen(self):
+
+        return self.vrijeplaatsen
+
+    def start(self):
+
+        self.bezig = True
+
+    def stop(self):
+
+        self.bezig = False
+
+    def is_bezig(self):
+
+        return self.bezig
+
+    def aan_het_wachten(self):
+
+        return datetime.combine(self.datum, self.slot) <= timer.getTime() and not self.is_bezig()
+
+    def get_plaatsenbezet(self):
+
+        return self.plaatsenbezet
+
+    def get_film(self,id):
         """
         vergeeft de film die in deze vertoning zit.
         :param Film: unieke string
         :return: de film.
         """
+        if id == self.filmid:
+            return id
+
+        else:
+            print("Geen film met deze " + str(id))

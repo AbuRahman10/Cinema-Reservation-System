@@ -1,4 +1,4 @@
-from Hashmap import *
+from Abu_ADT.Opdracht_4.Hashmap.Hashmap import *
 
 class HashmapTable:
 

@@ -6,6 +6,7 @@ class Gebruiker:
         self.voornaam = None #nog geen voornaamgekent
         self.achternaam = None #nog geen achernaam gekent
         self.emailadres = None # nog geen emailadres gekent.
+        self.state = False
 
     ##functionaliteit
     def maak_gebruiker(self,id ,voornaam,achternaam,emailadres):
@@ -27,13 +28,32 @@ class Gebruiker:
         self.emailadres = emailadres  # nog geen emailadres gekent.
 
 
-
     def verwijder_gebruiker(self,id):
         """
         deze zal de gebruiker verwijderen uit de ketting
         :param id: unieke string
         :return: true als verwijdert is.
         """
+
+    def get_id(self):
+
+        return self.id
+
+    def get_voornaam(self):
+
+        return self.voornaam
+
+    def get_achternaam(self):
+
+        return self.achternaam
+
+    def get_emailadress(self):
+
+        return self.emailadres
+
+    def get_state(self):
+
+        return self.state
 
     def zoek_gebruiker(self,id):
         """
@@ -42,4 +62,8 @@ class Gebruiker:
         :return: true als het gevonden is else false.
         """
 
-        return self.emailadres
+        if id == self.id:
+            return self.emailadres
+        else:
+            print("Geen gebruiker met deze " + str(id))
+

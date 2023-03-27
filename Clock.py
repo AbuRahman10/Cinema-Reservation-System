@@ -27,3 +27,4 @@ class Clock:
                 self.clock += datetime.timedelta(minutes=5)
                 print(self)
 
+timer = Clock()

@@ -19,41 +19,16 @@ class Zaal:
         self.nummer = zaalnummer
         self.plaatsen = plaatsen
 
-
-    def vind_zaal(self,zaalnummer):
+    def get_nummer(self):
         """
-        zoekt door de ketting met zalen op de zaalnummer. Als de zaal bestaat returnt
-        die de zaal nummer en aantal plaatsen als een tuple. als deze niet bestaat return een error.
-        :param zaalnummer: De unieke nummer van de zaal.
-        :return: returnt tuple met zaalnummer en aantal plaatsen.
+        Geeft de nummer terug van de zaal die aangemaakt was.
+        :return: de zaal nummer als int
         """
-        return str(zaalnummer)
+        return self.nummer
 
-
-    def kom_binnen(self,Reservatie):
+    def get_plaatsen(self):
         """
-        Zorgt ervoor dat er iemand in een zaal kan als die gereserveerd heeft. hierdoor is er een plaats minder is.
-        :param Reservatie: de reservatie van iemand
-        :return: true als de persoon binnen is.
+        geeft het aantal plaatsen terug van de zaal die aangemaakt was.
+        :return: het aantal plaatsen als int
         """
-
-    def zaal_vol(self):
-        """
-        de zaal is vol dus niemand kan er nog bij.
-        :return: de zaal is vol sorry.
-        """
-
-
-    # def get_zaalnummer(self):
-    #     """
-    #     Geeft de nummer terug van de zaal die aangemaakt was.
-    #     :return: de zaal nummer als int
-    #     """
-    #     return self.nummer
-    #
-    # def get_plaatsen(self):
-    #     """
-    #     geeft het aantal plaatsen terug van de zaal die aangemaakt was.
-    #     :return: het aantal plaatsen als int
-    #     """
-    #     return self.plaatsen
+        return self.plaatsen
