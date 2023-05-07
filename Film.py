@@ -4,6 +4,7 @@ class Film:
         self.id = None #nog geen film ID toegekent
         self.titel = None #nog geen titel toegekent
         self.rating = None #nog geen rating toegekent aan de film.
+        self.vertoningen = []
 
     ##functionalteit
     def voegfilmtoe(self,id,titel,rating):

@@ -117,8 +117,9 @@ class LinkedChain:
                 temp.next = newNode
                 newNode.prev = temp
                 self.head.prev = newNode
-
                 self.size += 1
+
+                return True
             else:
                 return False
         else:

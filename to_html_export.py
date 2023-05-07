@@ -1,26 +1,22 @@
 import pandas as pd
 
-
-
 from Reservatiesysteem import *
 r = Reservatiesysteem()
-
-
 
 print()
 r.addGebruiker(1,"sejar","dindar","sejar@10")
 print()
-r.addFilm(1,"The Matrix",6.1,1)
+r.addFilm(1,"The Matrix",6.1)
 print()
-r.addFilm(2,"Inception",7.1,2)
+r.addFilm(2,"Inception",7.1)
 print()
-r.addFilm(3,"Hello",7.1,3)
+r.addFilm(3,"Hello",7.1)
 print()
-r.addFilm(4,'Maze Runner',4.3,4)
+r.addFilm(4,'Maze Runner',4.3)
 print()
-r.addFilm(5,'Raadin',6.9,5)
+r.addFilm(5,'Raadin',6.9)
 print()
-r.addReservatie(1,"TG","12","1","4")
+r.addReservatie(1, datetime.time(14), 12, 1, 400)
 print()
 r.addVertoning(1,20,4,"2 oktober", 1)
 print()

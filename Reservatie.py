@@ -10,7 +10,7 @@ class Reservatie:
         self.aantalplaatsen = None #nog geen aantal plaatsen gereserveerd
 
     ##functionalteit
-    def maak_reservatie(self,id,userid,timestamp,vertoningid,aantalplaatsen):
+    def maak_reservatie(self,timestamp,userid,vertoningid,aantalplaatsen):
         """
         hiermaak je een reservatie aan en sla je deze op in een ketting. deze ketting
         blijft ook bestaan zodat je reservaties altijd terug kan vinden.
