@@ -8,13 +8,13 @@ from Reservatie import *
 from Clock import timer
 
 # Keuze Geadvanceerde ADT's
-admin = input("Choice Advanced ADT's - Abu | Sejar | Ahmed | Thomas : ")
+admin = input("Choice Advanced ADT's - Abu | Sejar | Ahmed : ")
 admin = admin.lower()
-admins = ["abu","sejar","ahmed","thomas"]
+admins = ["abu","sejar","ahmed"]
 
 
 while admin not in admins:
-    admin = input("Choice Advanced ADT's - Abu | Sejar | Ahmed | Thomas : ")
+    admin = input("Choice Advanced ADT's - Abu | Sejar | Ahmed : ")
     admin = admin.lower()
 
 if admin == "abu":
@@ -22,13 +22,6 @@ if admin == "abu":
     from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
     from Abu_ADT.Opdracht_3.BSTtable import *
     from Abu_ADT.Opdracht_4.Hashmap.HashmapTable import *  # import general Linked Chain
-    from Abu_ADT.Opdracht_2.MyQueue import *  # import general Queue
-
-elif admin == "thomas":
-    admin = "Thomas"
-    from Thomas_ADT.TwoTreeFourWapper import *
-    from Abu_ADT.Opdracht_3.BSTtable import *
-    from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
     from Abu_ADT.Opdracht_2.MyQueue import *  # import general Queue
 
 elif admin == "sejar":
@@ -56,9 +49,7 @@ class Reservatiesysteem:
         """
         self.zalen = LinkedChainTable()
         self.films = LinkedChainTable()
-        #self.films = TwoThreeFourTreeTable()
         self.gebruikers = BSTTable()
-        # self.gebruikers = TwoThreeFourTreeTable()
         self.reservaties = LinkedChainTable()
         self.vertoningen = LinkedChainTable()
 
