@@ -263,4 +263,4 @@ class Reservatiesysteem:
             '22.30': " "
         }
         my_data = pd.DataFrame(data=tabel)
-        my_data.to_html('abu.html', index=False)
+        my_data.to_html('log.html', index=False)
