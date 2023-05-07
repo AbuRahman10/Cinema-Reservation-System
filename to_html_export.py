@@ -1,38 +1,10 @@
 import pandas as pd
 
 from Reservatiesysteem import *
-r = Reservatiesysteem()
 
-print()
-r.addGebruiker(1,"sejar","dindar","sejar@10")
-print()
-r.addFilm(1,"The Matrix",6.1)
-print()
-r.addFilm(2,"Inception",7.1)
-print()
-r.addFilm(3,"Hello",7.1)
-print()
-r.addFilm(4,'Maze Runner',4.3)
-print()
-r.addFilm(5,'Raadin',6.9)
-print()
-r.addReservatie(1, datetime.time(14), 12, 1, 400)
-print()
-r.addVertoning(1,20,4,"2 oktober", 1)
-print()
-r.addZaal(10,200)
-print()
-r.addVertoning(1,20,4,"2 oktober", 1)
-
-filmlist = []
-idlist = []
-zaallist = []
-i = 1
-while i <= r.films.getLength():
-    filmlist.append(r.films.tableRetrieve(i)[0].zoek_film(i))
-    zaallist.append(r.films.tableRetrieve(i)[0].get_zaal(i))
-    idlist.append(i)
-    i+=1
+filmlist = ["hello","hello","hello"]
+idlist = [1,2,3]
+zaallist = [4,5,6]
 
 my_dict = {
     'MOVIE': filmlist,

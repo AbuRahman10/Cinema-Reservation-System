@@ -87,6 +87,5 @@ class Vertoning:
         """
         if id == self.filmid:
             return id
-
         else:
             print("Geen film met deze " + str(id))

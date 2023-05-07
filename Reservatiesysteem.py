@@ -6,6 +6,7 @@ from Vertoning import *
 from Zaal import *
 from Reservatie import *
 from Clock import timer
+import pandas as pd
 
 # Keuze Geadvanceerde ADT's
 admin = input("Choice Advanced ADT's - Abu | Sejar | Ahmed : ")
@@ -75,9 +76,11 @@ class Reservatiesysteem:
     def addFilm(self, id, titel, rating):
 
         film = Film()
-        if self.films.tableRetrieve(id)[1]:
-            print(titel + " bestaat al!")
-            return False
+
+        for i in self.films.save():
+            if i.id == id:
+                print("\033[1;31mFilm met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
+                return False
 
         film.voegfilmtoe(id, titel, rating)
         if (self.films.tableInsert(self.indexFilm, film)):
@@ -127,7 +130,7 @@ class Reservatiesysteem:
 
         zalen = self.zalen.save()
         for i in zalen:
-            if i.zaalnummmer == zaalnummer:
+            if i.nummer == zaalnummer:
                 print(str(zaalnummer) + " Bestaat al")
                 return False
 
@@ -196,7 +199,6 @@ class Reservatiesysteem:
             f.write(body)  # schrijft de body in het output bestand
             f.write(ENDHT)  # schrijft ENDHT (einde file) in het output bestand
 
-
     def buildTable(self, titel, dag):
         slots = [datetime.time(11, 0), datetime.time(14, 30), datetime.time(17, 0), datetime.time(20, 0), datetime.time(22, 30)]  # standaard slots
         position_slot = 0  # index position_slot
@@ -236,3 +238,29 @@ class Reservatiesysteem:
 
         bfr += "</tr>"
         return bfr
+
+    def log(self,tijd):
+        tempfilms = self.films.save()
+        vertoningen = self.vertoningen.save()
+        datum = []
+        filmslist = []
+        datum_film = []
+        for vertoning in vertoningen:
+            for film in tempfilms:
+                if vertoning.filmid == film.id:
+                    datum_film.append(tuple((str(vertoning.datum.date()),film.get_titel())))
+        result = list(dict.fromkeys(datum_film))
+        for dat,film in result:
+            datum.append(dat)
+            filmslist.append(film)
+        tabel = {
+            'Datum': datum,
+            'Film': filmslist,
+            '11.00': " ",
+            '14.30': " ",
+            '17.00': " ",
+            '20.00': " ",
+            '22.30': " "
+        }
+        my_data = pd.DataFrame(data=tabel)
+        my_data.to_html('abu.html', index=False)

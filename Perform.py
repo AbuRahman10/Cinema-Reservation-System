@@ -56,7 +56,7 @@ class Perform:
 
     def log(self):
         print(f"{timer} Kinepolis", "log")
-        self.r.buildLog(str(timer))
+        self.r.log(str(timer))
         # exit()
 
     def await_(self, time: datetime.datetime):
