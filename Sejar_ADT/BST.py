@@ -119,9 +119,9 @@ class BST:
 
     def searchTreeRetrieve(self, key):
         if self.isEmpty():
-            return False
+            return None,False
         else:
-            return self.search(key)
+            return self.search(key),True
 
     def search(self, key):
         if key == self.key:

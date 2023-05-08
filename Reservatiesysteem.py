@@ -23,16 +23,13 @@ if admin == "abu":
     admin = "Abu"
     from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
     from Abu_ADT.Opdracht_3.BSTtable import *
-    from Abu_ADT.Opdracht_4.Hashmap.HashmapTable import *  # import general Linked Chain
-    from Abu_ADT.Opdracht_2.MyQueue import *  # import general Queue
+    from Abu_ADT.Opdracht_4.Hashmap.HashmapTable import *
 
 elif admin == "sejar":
     admin = "Sejar"
     from Sejar_ADT.Heap import *
-    from Abu_ADT.Opdracht_3.BSTtable import *
-    from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
-    from Abu_ADT.Opdracht_2.MyQueue import *  # import general Queue
-
+    from Sejar_ADT.BSTWrapper import *
+    from Sejar_ADT.LinkedChainTable import *
 
 elif admin == "ahmed":
     admin = "Ahmed"

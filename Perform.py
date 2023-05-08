@@ -57,10 +57,9 @@ class Perform:
     def log(self):
         print(f"{timer} Kinepolis", "log")
         self.r.log(str(timer))
-        # exit()
 
     def await_(self, time: datetime.datetime):
         timer.setTime(time)  # sets clock time to desired time
 
 
-e = Perform('new_system.txt')
+e = Perform('system.txt')
