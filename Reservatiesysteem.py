@@ -141,13 +141,26 @@ class Reservatiesysteem:
     def getVertoning(self,id):
         return self.vertoningen.tableRetrieve(id)[1]
 
-    def updateTickets(self, id_vertoning, tickets):
-        vertoning, vertoning_bestaat = self.vertoningen.tableRetrieve(id_vertoning)
+    def updateTickets(self, vertoning_id, tickets):
+
+        vertoning = Vertoning()
+        zaal = Zaal()
+        vertoning_bestaat = False
+        zaal_bestaat = False
+        vertoningen = self.vertoningen.save()
+        zalen = self.zalen.save()
+
+        for vtn in vertoningen:
+            if vtn.id == vertoning_id:
+                vertoning_bestaat = True
+                vertoning = vtn
 
         if vertoning_bestaat:
             vertoning.plaatsenbezet += tickets
-            zaal, zaal_bestaat = self.zalen.tableRetrieve(vertoning.get_zaalnummer())
-
+            for zl in zalen:
+                if zl.nummer == vertoning.get_zaalnummer():
+                    zaal_bestaat = True
+                    zaal = zl
             if zaal_bestaat and vertoning.get_plaatsenbezet() + vertoning.get_vrije_plaatsen() == zaal.get_plaatsen():
                 vertoning.start()
             return True
@@ -238,27 +251,87 @@ class Reservatiesysteem:
         return bfr
 
     def log(self,tijd):
-        tempfilms = self.films.save()
+        films = self.films.save()
         vertoningen = self.vertoningen.save()
-        datum = []
-        filmslist = []
+
         datum_film = []
         for vertoning in vertoningen:
-            for film in tempfilms:
+            for film in films:
                 if vertoning.filmid == film.id:
-                    datum_film.append(tuple((str(vertoning.datum.date()),film.get_titel())))
-        result = list(dict.fromkeys(datum_film))
-        for dat,film in result:
+                    datum_film.append(tuple
+                                      ((str(vertoning.datum.date()),
+                                        film.get_titel(),
+                                        "Screening: " + str(vertoning.id),
+                                        str(vertoning.slot),
+                                        str(vertoning.get_plaatsenbezet()))))
+        #result = list(dict.fromkeys(datum_film))
+
+        nummer_vertoning = []
+        datum = []
+        filmslist = []
+        _11u00 = []
+        _14u30 = []
+        _17u00 = []
+        _20u00 = []
+        _22u30 = []
+
+        count = 0
+        for dat,film,nm,slot,tickets in datum_film:
+            nummer_vertoning.append(nm)
             datum.append(dat)
             filmslist.append(film)
+            if slot == "11:00:00":
+                for x in nummer_vertoning:
+                    if nm == x:
+                        _11u00.append("F:" + str(tickets))
+                        _14u30.append(" ")
+                        _17u00.append(" ")
+                        _20u00.append(" ")
+                        _22u30.append(" ")
+            elif slot == "14:30:00":
+                for x in nummer_vertoning:
+                    if nm == x:
+                        _14u30.append("F:" + str(tickets))
+                        _11u00.append(" ")
+                        _17u00.append(" ")
+                        _20u00.append(" ")
+                        _22u30.append(" ")
+            elif slot == "17:00:00":
+                for x in nummer_vertoning:
+                    if nm == x:
+                        _17u00.append("F:" + str(tickets))
+                        _14u30.append(" ")
+                        _11u00.append(" ")
+                        _20u00.append(" ")
+                        _22u30.append(" ")
+            elif slot == "20:00:00":
+                 for x in nummer_vertoning:
+                    if nm == x:
+                        _20u00.append("F:" + str(tickets))
+                        _14u30.append(" ")
+                        _17u00.append(" ")
+                        _11u00.append(" ")
+                        _22u30.append(" ")
+            elif slot == "22:30:00":
+                for x in nummer_vertoning:
+                    if nm == x:
+                        _22u30.append("F:" + str(tickets))
+                        _14u30.append(" ")
+                        _17u00.append(" ")
+                        _20u00.append(" ")
+                        _11u00.append(" ")
+            count += 1
+
+
         tabel = {
-            'Datum': datum,
+            'Film Screening': nummer_vertoning,
+            'Date': datum,
             'Film': filmslist,
-            '11.00': " ",
-            '14.30': " ",
-            '17.00': " ",
-            '20.00': " ",
-            '22.30': " "
+            '11.00': _11u00,
+            '14.30': _14u30,
+            '17.00': _17u00,
+            '20.00': _20u00,
+            '22.30': _22u30
         }
         my_data = pd.DataFrame(data=tabel)
         my_data.to_html('log.html', index=False)
