@@ -65,4 +65,5 @@ class Perform:
         timer.setTime(time)  # sets clock time to desired time
 
 
-e = Perform('system.txt')
+e = Perform('new_system.txt')
+print()

@@ -6,7 +6,6 @@ Deze opdracht gaat over een reservatie systeem en specifiek voor Kinepolis. We h
 
 # Groepsleden:
 
-- Thomas Ghysels
 - Sejar Dindar
 - Abobaker Rahman
 - Ahmed Al-husseini

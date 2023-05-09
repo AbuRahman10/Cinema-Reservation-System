@@ -96,26 +96,40 @@ class BST:
         self.right = None
         self.key = None
 
-    def searchTreeInsert(self, item):
-        if self.isEmpty():
-            self.key = item[0]
-            self.value = item[1]
-            return True
-        else:
-            self.insert_(item)
-            return True
+    def searchTreeInsert(self, key):
+        """
 
-    def insert_(self, item):
-        if item[0] > self.key:
-            if self.right is None:
-                self.right = item
-            else:
-                self.right.insert_(item)
+        :param key: de slot die in de boom opgeslagen wordt
+        :return: true als key in de boom geplaatst kan worden
+        """
+
+        if self.isEmpty():
+            self.key = key[0]
+            self.value = key[1]
+            return True
         else:
-            if self.left is None:
-                self.left = item
-            else:
-                self.left.insert_(item)
+            if key[0] < self.key:
+                if self.left == None:
+                    left = BST()
+                    left.key = key[0]
+                    left.value = key[1]
+                    self.left = left
+                    return True
+                else:
+                    self.left.searchTreeInsert(key)
+                    return True
+            elif key[0] > self.key:
+                if self.right == None:
+                    right = BST()
+                    right.key = key[0]
+                    right.value = key[1]
+                    self.right = right
+                    return True
+                else:
+                    self.right.searchTreeInsert(key)
+                    return True
+        return False
+
 
     def searchTreeRetrieve(self, keyType):
 
@@ -124,14 +138,14 @@ class BST:
         elif self.key == keyType:
             return self.key, True
         elif keyType < self.key:
-            if self.left == None:
+            if self.left is None:
                 return None, False
             elif self.left.key == keyType:
                 return self.left.key, True
             else:
                 return self.left.searchTreeRetrieve(keyType)
         elif keyType > self.key:
-            if self.right == None:
+            if self.right is None:
                 return None, False
             elif self.right.key == keyType:
                 return self.right.key, True
@@ -177,7 +191,7 @@ class BST:
                     else:
                         self.inorderSuccessor()
                         return True
-                 # delete node with 2 child
+                # delete node with 2 child
                 elif self.left is not None and self.right is not None:
                     self.inorderSuccessor()
                     return True
