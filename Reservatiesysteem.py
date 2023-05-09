@@ -1,3 +1,4 @@
+import base64
 import datetime
 from Film import *
 from Gebruiker import *
@@ -6,6 +7,7 @@ from Zaal import *
 from Reservatie import *
 from Clock import timer
 import pandas as pd
+from IPython.display import Image
 
 
 # Keuze Geadvanceerde ADT's
@@ -110,7 +112,7 @@ class Reservatiesysteem:
 
         showtimes = self.vertoningen.save()
         for i in showtimes:
-            if i.id == id or (i.datum == datum and i.slot == slot):
+            if i.id == id or (i.datum == datum and i.slot == slot and i.get_zaalnummer() == zaalnummer):
                 print("\033[1;31mVertoning met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
                 return False
 
@@ -175,15 +177,18 @@ class Reservatiesysteem:
                 if zl.nummer == vertoning.get_zaalnummer():
                     zaal = zl
             for film in films:
-                    if vertoning.filmid == film.id:
-                        datum_film.append(tuple
-                                          ((vertoning,
-                                            str(vertoning.datum.date()),
-                                            film.get_titel(),
-                                            "Screening: " + str(vertoning.id),
-                                            str(vertoning.slot),
-                                            str(vertoning.get_plaatsenbezet()),
-                                            zaal)))
+                if vertoning.filmid == film.id:
+                    tup = tuple\
+                    (
+                        (
+                            vertoning,str(vertoning.datum.date()),
+                            film.get_titel(),"Screening: " + str(vertoning.id),
+                            str(vertoning.slot),
+                            str(vertoning.get_plaatsenbezet()),
+                            zaal
+                         )
+                    )
+                    datum_film.append(tup)
 
         nummer_vertoning = []
         datum = []
@@ -219,6 +224,40 @@ class Reservatiesysteem:
                     slot3.append(" ")
                     slot4.append(" ")
 
+        def voegF_toe(slot,nm, tickets):
+            if slot == "11:00:00":
+                voegF_Toe(nm, tickets, _11u00, _14u30, _17u00, _20u00, _22u30)
+            elif slot == "14:30:00":
+                voegF_Toe(nm, tickets, _14u30, _11u00, _17u00, _20u00, _22u30)
+            elif slot == "17:00:00":
+                voegF_Toe(nm, tickets, _17u00, _14u30, _11u00, _20u00, _22u30)
+            elif slot == "20:00:00":
+                voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, _11u00, _22u30)
+            elif slot == "22:30:00":
+                voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, _11u00)
+        def voegG_toe(slot,vert,zl,nm):
+            if slot == "11:00:00":
+                voegG_Toe(vert, zl, nm, _11u00, _14u30, _17u00, _20u00, _22u30)
+            elif slot == "14:30:00":
+                voegG_Toe(vert, zl, nm, _14u30, _11u00, _17u00, _20u00, _22u30)
+            elif slot == "17:00:00":
+                voegG_Toe(vert, zl, nm, _17u00, _14u30, _11u00, _20u00, _22u30)
+            elif slot == "20:00:00":
+                voegG_Toe(vert, zl, nm, _20u00, _14u30, _17u00, _11u00, _22u30)
+            elif slot == "22:30:00":
+                voegG_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+        def voegW_toe(slot,vert, zl, nm):
+            if slot == "11:00:00":
+                voegW_Toe(vert, zl, nm, _11u00, _14u30, _17u00, _20u00, _22u30)
+            elif slot == "14:30:00":
+                voegW_Toe(vert, zl, nm, _14u30, _11u00, _17u00, _20u00, _22u30)
+            elif slot == "17:00:00":
+                voegW_Toe(vert, zl, nm, _17u00, _14u30, _11u00, _20u00, _22u30)
+            elif slot == "20:00:00":
+                voegW_Toe(vert, zl, nm, _20u00, _14u30, _17u00, _11u00, _22u30)
+            elif slot == "22:30:00":
+                voegW_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+
 
         for vert,dat,film,nm,slot,tickets,zl in datum_film:
             nummer_vertoning.append(nm)
@@ -226,61 +265,19 @@ class Reservatiesysteem:
             filmslist.append(film)
             d = datetime
             if vert.is_bezig():
-                if slot == "11:00:00":
-                    voegF_Toe(nm,tickets,_11u00,_14u30,_17u00,_20u00,_22u30)
-                elif slot == "14:30:00":
-                    voegF_Toe(nm, tickets, _14u30, _11u00, _17u00, _20u00, _22u30)
-                elif slot == "17:00:00":
-                    voegF_Toe(nm, tickets, _17u00, _14u30, _11u00, _20u00, _22u30)
-                elif slot == "20:00:00":
-                    voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, _11u00, _22u30)
-                elif slot == "22:30:00":
-                    voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, _11u00)
+                voegF_toe(slot,nm,tickets)
             elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and d.combine(vert.get_datum(), vert.get_slot()) <= timer.getTime():
-                if slot == "11:00:00":
-                    voegF_Toe(nm,tickets,_11u00,_14u30,_17u00,_20u00,_22u30)
-                elif slot == "14:30:00":
-                    voegF_Toe(nm, tickets, _14u30, _11u00, _17u00, _20u00, _22u30)
-                elif slot == "17:00:00":
-                    voegF_Toe(nm, tickets, _17u00, _14u30, _11u00, _20u00, _22u30)
-                elif slot == "20:00:00":
-                    voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, _11u00, _22u30)
-                elif slot == "22:30:00":
-                    voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, _11u00)
+                voegF_toe(slot,nm,tickets)
             elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and d.combine(vert.get_datum(),vert.get_slot()) > timer.getTime():
-                if slot == "11:00:00":
-                    voegG_Toe(vert,zl,nm,_11u00,_14u30,_17u00,_20u00,_22u30)
-                elif slot == "14:30:00":
-                    voegG_Toe(vert,zl,nm, _14u30, _11u00, _17u00, _20u00, _22u30)
-                elif slot == "17:00:00":
-                    voegG_Toe(vert,zl,nm, _17u00, _14u30, _11u00, _20u00, _22u30)
-                elif slot == "20:00:00":
-                    voegG_Toe(vert,zl,nm, _20u00, _14u30, _17u00, _11u00, _22u30)
-                elif slot == "22:30:00":
-                    voegG_Toe(vert,zl,nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+                voegG_toe(slot,vert,zl,nm)
             elif vert.aan_het_wachten():
-                if slot == "11:00:00":
-                    voegW_Toe(vert, zl, nm, _11u00, _14u30, _17u00, _20u00, _22u30)
-                elif slot == "14:30:00":
-                    voegW_Toe(vert, zl, nm, _14u30, _11u00, _17u00, _20u00, _22u30)
-                elif slot == "17:00:00":
-                    voegW_Toe(vert, zl, nm, _17u00, _14u30, _11u00, _20u00, _22u30)
-                elif slot == "20:00:00":
-                    voegW_Toe(vert, zl, nm, _20u00, _14u30, _17u00, _11u00, _22u30)
-                elif slot == "22:30:00":
-                    voegW_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+                voegW_toe(slot,vert,zl,nm)
             else:
-                if slot == "11:00:00":
-                    voegG_Toe(vert, zl, nm, _11u00, _14u30, _17u00, _20u00, _22u30)
-                elif slot == "14:30:00":
-                    voegG_Toe(vert, zl, nm, _14u30, _11u00, _17u00, _20u00, _22u30)
-                elif slot == "17:00:00":
-                    voegG_Toe(vert, zl, nm, _17u00, _14u30, _11u00, _20u00, _22u30)
-                elif slot == "20:00:00":
-                    voegG_Toe(vert, zl, nm, _20u00, _14u30, _17u00, _11u00, _22u30)
-                elif slot == "22:30:00":
-                    voegG_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+                voegG_toe(slot,vert,zl,nm)
 
+
+
+        # define the table and style as before
         tabel = {
             'Film Screening': nummer_vertoning,
             'Date': datum,
@@ -292,51 +289,62 @@ class Reservatiesysteem:
             '22.30': _22u30
         }
         my_data = pd.DataFrame(data=tabel)
-        my_html = my_data.to_html(index=False)
+        html = my_data.to_html(index=False)
 
-        # Add CSS to style the table
-        my_css = '''
+        css = '''
         <style>
+        body {
+            background-color: #4444FF;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         th {
-            background-color: #0074D9;
+            background-color: #FF1744;
             color: white;
             font-weight: bold;
-            text-align: left;
-            padding: 8px;
+            text-align: center;
+            padding: 16px;
+            font-size: 20px;
         }
 
         th:first-child {
-            border-top-left-radius: 5px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
         }
 
         th:last-child {
-            border-top-right-radius: 5px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
         }
 
         td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            border: 1px solid black;
+            padding: 16px;
+            font-size: 18px;
+            text-align: center;
         }
 
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #909090 ;
         }
         </style>
         '''
 
-        # Combine the HTML and CSS
-        full_html = my_css + my_html
+        with open("kinepolis_logo.png", "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
 
-        # Write the HTML to a file
+        # Embed the image in the HTML code
+        image_html = f'<div style="text-align:center;padding-top:50px;"><img src="data:image/png;base64,{encoded_string}" style="max-width: 150px; height: auto;"/></div>'
+
+        # Combine the HTML code and the image code
+        full_html = f"<html><head>{css}</head><body>{html}<br>{image_html}</body></html>"
+
+        # write the output to a file
         with open('log.html', 'w') as f:
             f.write(full_html)
-
-
-
-

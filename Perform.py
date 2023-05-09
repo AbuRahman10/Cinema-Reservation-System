@@ -66,4 +66,3 @@ class Perform:
 
 
 e = Perform('new_system.txt')
-print()
