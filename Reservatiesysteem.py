@@ -1,5 +1,4 @@
 import datetime
-
 from Film import *
 from Gebruiker import *
 from Vertoning import *
@@ -33,10 +32,9 @@ elif admin == "sejar":
 
 elif admin == "ahmed":
     admin = "Ahmed"
-    from Ahmed_ADT.heap import *
-    from Abu_ADT.Opdracht_3.BSTtable import *
-    from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
-    from Abu_ADT.Opdracht_2.MyQueue import *  # import general Queue
+    from Ahmed_ADT.heapWrapper import *
+    from Ahmed_ADT.BSTWrapper import *
+    from Ahmed_ADT.LinkedChainTable import *
 
 class Reservatiesysteem:
 
@@ -62,7 +60,7 @@ class Reservatiesysteem:
 
         gebruiker = Gebruiker()
         if self.gebruikers.tableRetrieve(id)[1]:
-            print(str(emailadres + " bestaat al!"))
+            print("\033[1;31mGebruiker met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
             return False
 
         gebruiker.maak_gebruiker(id, voornaam, achternaam, emailadres)
@@ -76,7 +74,7 @@ class Reservatiesysteem:
         film = Film()
 
         for i in self.films.save():
-            if i.id == id:
+            if i.id == id or i.get_titel() == titel:
                 print("\033[1;31mFilm met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
                 return False
 
@@ -112,10 +110,9 @@ class Reservatiesysteem:
 
         showtimes = self.vertoningen.save()
         for i in showtimes:
-            if i.id == id:
-                print("Vertoning ", id, " bestaat al!")
+            if i.id == id or (i.datum == datum and i.slot == slot):
+                print("\033[1;31mVertoning met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
                 return False
-
 
         vertoning.maak_vertoning(id,zaalnummer,slot,datum,filmid, vrijePlaatsen)
         if (self.vertoningen.tableInsert(self.indexVertoning,vertoning)):
@@ -129,7 +126,7 @@ class Reservatiesysteem:
         zalen = self.zalen.save()
         for i in zalen:
             if i.nummer == zaalnummer:
-                print(str(zaalnummer) + " Bestaat al")
+                print("\033[1;31mZaal met id: \033[0m" + str(zaalnummer) + " \033[1;31mis al gemaakt!\033[0m")
                 return False
 
         zaal.maak_zaal(zaalnummer,plaatsen)
@@ -166,105 +163,27 @@ class Reservatiesysteem:
             return True
         return False
 
-    def buildLog(self, tijd):
-
-        BeginHT = """
-                <html>
-        	<head>
-        	<style>
-        		table {
-        		    border-collapse: collapse;
-        		}
-
-        		table, td, th {
-        		    border: 1px solid #000000;
-        		}
-        	</style>
-        </head>
-        	<body>
-        		<h1>Log op """ + tijd + """, met de ADTS van: """ + admin + """</h1>
-        		<table>
-        			<thead>
-        				<td>Datum</td>
-        				<td>Film</td>
-        				<td>11:00</td>
-        				<td>14:30</td>
-        				<td>17:00</td>
-        				<td>20:00</td>
-        				<td>22:30</td>
-        			</thead>
-        			<tbody>
-                """
-        body = ""
-        ENDHT = "</tbody></table></body></html>"
-        with open("log.html", "w") as f:  # opent het output bestand om te schrijven
-            f.write(BeginHT)  # schrijft BeginHT (formaat en standaardslots) in de output file
-            films = []  # nieuwe lijst voor films
-            #films.traverseTable(films.append) # zet alle films in films
-            films = self.films.save()
-            # for film in films:  # loopt over films
-            #     titel = film.get_titel()  # krijg de titel van de film
-            #     d = self.vertoningen.save()
-            #     for day in self.vertoningen.save():  # loopt over elke dag van vertoningen van deze film
-            #         body += self.buildTable(titel, day)  # voegt een nieuwe rij toe voor elke dag dat deze film wordt afgespeeld en voegt dit toe aan body
-            f.write(body)  # schrijft de body in het output bestand
-            f.write(ENDHT)  # schrijft ENDHT (einde file) in het output bestand
-
-    def buildTable(self, titel, dag):
-        slots = [datetime.time(11, 0), datetime.time(14, 30), datetime.time(17, 0), datetime.time(20, 0), datetime.time(22, 30)]  # standaard slots
-        position_slot = 0  # index position_slot
-        bfr = f"""
-                            <tr>
-                                <td>{dag[0].date()}</td>
-                                <td>{titel}</td>
-                                """
-        for vertoning in dag[1]:  # loopt over de vertoningen van de dag
-            while vertoning[0] != slots[position_slot]:  # Zolang er geen vertoning is op dit slot, wordt <td></td> bij de bfr toegevoegd
-                bfr += f"<td></td>"  # geen vertoning
-                position_slot += 1  # naar volgende positie gaan
-
-            zaal, succes = self.zalen.tableRetrieve(vertoning[1].get_zaalnummer())  # zaal is 1ste element van de tuple, succes is het 2de element
-            if not succes:  # kijkt na of zaal bestaat
-                raise Exception("Zaal bestaat niet!")
-
-            if vertoning[1].is_bezig():  # als de film gestart is
-                bfr += f"<td>F:{vertoning[1].get_plaatsenbezet()}</td>"  # voeg "F: aantal mensen in zaal" toe aan bfr
-
-            elif vertoning[1].get_vrije_plaatsen() == zaal.get_plaatsen() and datetime.datetime.combine(vertoning[1].get_datum(), vertoning[1].get_slot()) <= timer.getTime():
-                bfr += f"<td>F:{vertoning[1].get_plaatsenbezet()}</td>"  # voeg "F: aantal mensen in zaal" toe aan bfr
-
-            elif vertoning[1].get_vrije_plaatsen() == zaal.get_plaatsen() and datetime.datetime.combine(vertoning[1].get_datum(), vertoning[1].getSlot()) > timer.getTime():
-                bfr += f"<td>G:{zaal.get_plaatsen() - vertoning[1].get_vrije_plaatsen()}</td>"  # voeg "G: aantal verkochte tickets" toe aan bfr
-
-            elif vertoning[1].aan_het_wachten():  # als er gewacht moet worden op personen
-                bfr += f"<td>W:{zaal.get_plaatsen() - (vertoning[1].get_plaatsenbezet() + vertoning[1].getAantalVrij())}</td>"  # voeg "W: aantal mensen waarop wachten" toe aan bfr
-
-            else:
-                bfr += f"<td>G:{zaal.get_plaatsen() - vertoning[1].get_vrije_plaatsen()}</td>"  # voeg "G: aantal verkochte tickets" toe aan bfr
-
-            position_slot += 1  # ga naar volgende slot
-
-        for p in range(position_slot, 5):  # voeg aan volgende slots <td></td> toe
-            bfr += f"<td></td>"
-
-        bfr += "</tr>"
-        return bfr
-
     def log(self,tijd):
         films = self.films.save()
         vertoningen = self.vertoningen.save()
+        zalen = self.zalen.save()
 
         datum_film = []
         for vertoning in vertoningen:
+            zaal = Zaal()
+            for zl in zalen:
+                if zl.nummer == vertoning.get_zaalnummer():
+                    zaal = zl
             for film in films:
-                if vertoning.filmid == film.id:
-                    datum_film.append(tuple
-                                      ((vertoning,
-                                        str(vertoning.datum.date()),
-                                        film.get_titel(),
-                                        "Screening: " + str(vertoning.id),
-                                        str(vertoning.slot),
-                                        str(vertoning.get_plaatsenbezet()))))
+                    if vertoning.filmid == film.id:
+                        datum_film.append(tuple
+                                          ((vertoning,
+                                            str(vertoning.datum.date()),
+                                            film.get_titel(),
+                                            "Screening: " + str(vertoning.id),
+                                            str(vertoning.slot),
+                                            str(vertoning.get_plaatsenbezet()),
+                                            zaal)))
 
         nummer_vertoning = []
         datum = []
@@ -283,21 +202,84 @@ class Reservatiesysteem:
                     slot2.append(" ")
                     slot3.append(" ")
                     slot4.append(" ")
+        def voegG_Toe(vert,zl,nm,slotFinal,slot1, slot2, slot3, slot4):
+            for x in nummer_vertoning:
+                if nm == x:
+                    slotFinal.append("G:" + str(zl.get_plaatsen() - vert.get_vrije_plaatsen()))
+                    slot1.append(" ")
+                    slot2.append(" ")
+                    slot3.append(" ")
+                    slot4.append(" ")
+        def voegW_Toe(vert,zl,nm,slotFinal,slot1, slot2, slot3, slot4):
+            for x in nummer_vertoning:
+                if nm == x:
+                    slotFinal.append("W:" + str(zl.get_plaatsen() - (vert.get_plaatsenbezet() + vert.get_vrije_plaatsen())))
+                    slot1.append(" ")
+                    slot2.append(" ")
+                    slot3.append(" ")
+                    slot4.append(" ")
 
-        for vert,dat,film,nm,slot,tickets in datum_film:
+
+        for vert,dat,film,nm,slot,tickets,zl in datum_film:
             nummer_vertoning.append(nm)
             datum.append(dat)
             filmslist.append(film)
-            if slot == "11:00:00":
-                voegF_Toe(nm,tickets,_11u00,_14u30,_17u00,_20u00,_22u30)
-            elif slot == "14:30:00":
-                voegF_Toe(nm, tickets, _14u30, _11u00, _17u00, _20u00, _22u30)
-            elif slot == "17:00:00":
-                voegF_Toe(nm, tickets, _17u00, _14u30, _11u00, _20u00, _22u30)
-            elif slot == "20:00:00":
-                voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, _11u00, _22u30)
-            elif slot == "22:30:00":
-                voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, _11u00)
+            d = datetime
+            if vert.is_bezig():
+                if slot == "11:00:00":
+                    voegF_Toe(nm,tickets,_11u00,_14u30,_17u00,_20u00,_22u30)
+                elif slot == "14:30:00":
+                    voegF_Toe(nm, tickets, _14u30, _11u00, _17u00, _20u00, _22u30)
+                elif slot == "17:00:00":
+                    voegF_Toe(nm, tickets, _17u00, _14u30, _11u00, _20u00, _22u30)
+                elif slot == "20:00:00":
+                    voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, _11u00, _22u30)
+                elif slot == "22:30:00":
+                    voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, _11u00)
+            elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and d.combine(vert.get_datum(), vert.get_slot()) <= timer.getTime():
+                if slot == "11:00:00":
+                    voegF_Toe(nm,tickets,_11u00,_14u30,_17u00,_20u00,_22u30)
+                elif slot == "14:30:00":
+                    voegF_Toe(nm, tickets, _14u30, _11u00, _17u00, _20u00, _22u30)
+                elif slot == "17:00:00":
+                    voegF_Toe(nm, tickets, _17u00, _14u30, _11u00, _20u00, _22u30)
+                elif slot == "20:00:00":
+                    voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, _11u00, _22u30)
+                elif slot == "22:30:00":
+                    voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, _11u00)
+            elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and d.combine(vert.get_datum(),vert.get_slot()) > timer.getTime():
+                if slot == "11:00:00":
+                    voegG_Toe(vert,zl,nm,_11u00,_14u30,_17u00,_20u00,_22u30)
+                elif slot == "14:30:00":
+                    voegG_Toe(vert,zl,nm, _14u30, _11u00, _17u00, _20u00, _22u30)
+                elif slot == "17:00:00":
+                    voegG_Toe(vert,zl,nm, _17u00, _14u30, _11u00, _20u00, _22u30)
+                elif slot == "20:00:00":
+                    voegG_Toe(vert,zl,nm, _20u00, _14u30, _17u00, _11u00, _22u30)
+                elif slot == "22:30:00":
+                    voegG_Toe(vert,zl,nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+            elif vert.aan_het_wachten():
+                if slot == "11:00:00":
+                    voegW_Toe(vert, zl, nm, _11u00, _14u30, _17u00, _20u00, _22u30)
+                elif slot == "14:30:00":
+                    voegW_Toe(vert, zl, nm, _14u30, _11u00, _17u00, _20u00, _22u30)
+                elif slot == "17:00:00":
+                    voegW_Toe(vert, zl, nm, _17u00, _14u30, _11u00, _20u00, _22u30)
+                elif slot == "20:00:00":
+                    voegW_Toe(vert, zl, nm, _20u00, _14u30, _17u00, _11u00, _22u30)
+                elif slot == "22:30:00":
+                    voegW_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+            else:
+                if slot == "11:00:00":
+                    voegG_Toe(vert, zl, nm, _11u00, _14u30, _17u00, _20u00, _22u30)
+                elif slot == "14:30:00":
+                    voegG_Toe(vert, zl, nm, _14u30, _11u00, _17u00, _20u00, _22u30)
+                elif slot == "17:00:00":
+                    voegG_Toe(vert, zl, nm, _17u00, _14u30, _11u00, _20u00, _22u30)
+                elif slot == "20:00:00":
+                    voegG_Toe(vert, zl, nm, _20u00, _14u30, _17u00, _11u00, _22u30)
+                elif slot == "22:30:00":
+                    voegG_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, _11u00)
 
         tabel = {
             'Film Screening': nummer_vertoning,
@@ -310,6 +292,51 @@ class Reservatiesysteem:
             '22.30': _22u30
         }
         my_data = pd.DataFrame(data=tabel)
-        my_data.to_html('log.html', index=False)
+        my_html = my_data.to_html(index=False)
+
+        # Add CSS to style the table
+        my_css = '''
+        <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        th {
+            background-color: #0074D9;
+            color: white;
+            font-weight: bold;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th:first-child {
+            border-top-left-radius: 5px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 5px;
+        }
+
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        </style>
+        '''
+
+        # Combine the HTML and CSS
+        full_html = my_css + my_html
+
+        # Write the HTML to a file
+        with open('log.html', 'w') as f:
+            f.write(full_html)
+
+
 
 

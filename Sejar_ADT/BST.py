@@ -117,23 +117,26 @@ class BST:
             else:
                 self.left.insert_(item)
 
-    def searchTreeRetrieve(self, key):
-        if self.isEmpty():
-            return None,False
-        else:
-            return self.search(key),True
+    def searchTreeRetrieve(self, keyType):
 
-    def search(self, key):
-        if key == self.key:
+        if self.isEmpty():
+            return self.key, False
+        elif self.key == keyType:
             return self.key, True
-        elif self.key > key:
-            if self.left is not None:
-                return self.left.search(key)
-            return False
-        else:
-            if self.right is not None:
-                return self.right.search(key)
-            return False
+        elif keyType < self.key:
+            if self.left == None:
+                return None, False
+            elif self.left.key == keyType:
+                return self.left.key, True
+            else:
+                return self.left.searchTreeRetrieve(keyType)
+        elif keyType > self.key:
+            if self.right == None:
+                return None, False
+            elif self.right.key == keyType:
+                return self.right.key, True
+            else:
+                return self.right.searchTreeRetrieve(keyType)
 
     def inorderTraverse(self, print):
         self.inorder()
