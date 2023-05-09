@@ -259,12 +259,12 @@ class Reservatiesysteem:
             for film in films:
                 if vertoning.filmid == film.id:
                     datum_film.append(tuple
-                                      ((str(vertoning.datum.date()),
+                                      ((vertoning,
+                                        str(vertoning.datum.date()),
                                         film.get_titel(),
                                         "Screening: " + str(vertoning.id),
                                         str(vertoning.slot),
                                         str(vertoning.get_plaatsenbezet()))))
-        #result = list(dict.fromkeys(datum_film))
 
         nummer_vertoning = []
         datum = []
@@ -275,53 +275,29 @@ class Reservatiesysteem:
         _20u00 = []
         _22u30 = []
 
-        count = 0
-        for dat,film,nm,slot,tickets in datum_film:
+        def voegF_Toe(nm,tickets,slotFinal,slot1, slot2, slot3, slot4):
+            for x in nummer_vertoning:
+                if nm == x:
+                    slotFinal.append("F:" + str(tickets))
+                    slot1.append(" ")
+                    slot2.append(" ")
+                    slot3.append(" ")
+                    slot4.append(" ")
+
+        for vert,dat,film,nm,slot,tickets in datum_film:
             nummer_vertoning.append(nm)
             datum.append(dat)
             filmslist.append(film)
             if slot == "11:00:00":
-                for x in nummer_vertoning:
-                    if nm == x:
-                        _11u00.append("F:" + str(tickets))
-                        _14u30.append(" ")
-                        _17u00.append(" ")
-                        _20u00.append(" ")
-                        _22u30.append(" ")
+                voegF_Toe(nm,tickets,_11u00,_14u30,_17u00,_20u00,_22u30)
             elif slot == "14:30:00":
-                for x in nummer_vertoning:
-                    if nm == x:
-                        _14u30.append("F:" + str(tickets))
-                        _11u00.append(" ")
-                        _17u00.append(" ")
-                        _20u00.append(" ")
-                        _22u30.append(" ")
+                voegF_Toe(nm, tickets, _14u30, _11u00, _17u00, _20u00, _22u30)
             elif slot == "17:00:00":
-                for x in nummer_vertoning:
-                    if nm == x:
-                        _17u00.append("F:" + str(tickets))
-                        _14u30.append(" ")
-                        _11u00.append(" ")
-                        _20u00.append(" ")
-                        _22u30.append(" ")
+                voegF_Toe(nm, tickets, _17u00, _14u30, _11u00, _20u00, _22u30)
             elif slot == "20:00:00":
-                 for x in nummer_vertoning:
-                    if nm == x:
-                        _20u00.append("F:" + str(tickets))
-                        _14u30.append(" ")
-                        _17u00.append(" ")
-                        _11u00.append(" ")
-                        _22u30.append(" ")
+                voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, _11u00, _22u30)
             elif slot == "22:30:00":
-                for x in nummer_vertoning:
-                    if nm == x:
-                        _22u30.append("F:" + str(tickets))
-                        _14u30.append(" ")
-                        _17u00.append(" ")
-                        _20u00.append(" ")
-                        _11u00.append(" ")
-            count += 1
-
+                voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, _11u00)
 
         tabel = {
             'Film Screening': nummer_vertoning,
@@ -335,3 +311,5 @@ class Reservatiesysteem:
         }
         my_data = pd.DataFrame(data=tabel)
         my_data.to_html('log.html', index=False)
+
+
