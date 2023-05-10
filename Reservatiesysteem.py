@@ -7,7 +7,6 @@ from Zaal import *
 from Reservatie import *
 from Clock import timer
 import pandas as pd
-from IPython.display import Image
 
 
 # Keuze Geadvanceerde ADT's
@@ -338,13 +337,7 @@ class Reservatiesysteem:
 
         with open("kinepolis_logo.png", "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-
-        # Embed the image in the HTML code
         image_html = f'<div style="text-align:center;padding-top:50px;"><img src="data:image/png;base64,{encoded_string}" style="max-width: 150px; height: auto;"/></div>'
-
-        # Combine the HTML code and the image code
         full_html = f"<html><head>{css}</head><body>{html}<br>{image_html}</body></html>"
-
-        # write the output to a file
         with open('log.html', 'w') as f:
             f.write(full_html)
