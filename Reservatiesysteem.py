@@ -132,7 +132,7 @@ class Reservatiesysteem:
             print("\033[1;31mGebruiker met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
             return False
         gebruiker.maak_gebruiker(id, voornaam, achternaam, emailadres)
-        self.gebruikers.tableInsert((id, gebruiker)) # hier moeten we de object zelf inserten ipv input
+        self.gebruikers.tableInsert((id, gebruiker))
         print("Gebruiker met id " + str(id) + " is gemaakt!")
         return True
     def addFilm(self, id, titel, rating):
@@ -192,9 +192,13 @@ class Reservatiesysteem:
             zaal, zaal_bestaat = self.getZaal(vertoning.get_zaalnummer())
             if zaal_bestaat and vertoning.get_plaatsenbezet() + vertoning.get_vrije_plaatsen() == zaal.get_plaatsen():
                 vertoning.start()
+                print("Tickets geaccepteerd voor vertoning " + str(vertoning_id) + " !")
+                print("\033[1;35mVertoning met id: \033[0m" + str(vertoning_id) + " \033[1;35mis gestart!\033[0m")
+                return True
+            print("Tickets geaccepteerd voor vertoning " + str(vertoning_id) + " !")
             return True
         else:
-            print(str(tickets) + "\033[1;31m mensen kunnen niet Vertoning: \033[0m" + str(vertoning_id) + "\033[1;31m bekijken!\033[0m")
+            print(str(tickets) + "\033[1;31m mensen kunnen niet Vertoning: \033[0m" + str(vertoning_id) + "\033[1;31m bekijken! (Geen Reservatie)\033[0m")
             return False
     def vertoningInfo(self):
         films = self.getFilms()

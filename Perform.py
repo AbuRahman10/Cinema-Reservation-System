@@ -1,5 +1,5 @@
 from Clock import timer
-from Parse import *
+from Parser import *
 import datetime
 from Reservatiesysteem import Reservatiesysteem
 
@@ -7,7 +7,7 @@ functions = {'zaal': 'addZaal','film': 'addFilm','vertoning': 'addVertoning','ge
 
 class Perform:
     def __init__(self, filename: str):
-        pars = Parse(filename)
+        pars = Parser(filename)
         # INFORMATIE LEZEN EN IN EEN DICTIONARY
         self.parsed = pars.parse()
     def run(self):
