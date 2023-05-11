@@ -6,6 +6,7 @@ class Heap:
         self.type = maxHeap
         self.key = key
         self.count = 0
+        self.data = None
 
     def heapIsEmpty(self):
         return self.key is None
@@ -141,10 +142,10 @@ class Heap:
 
     def heapInsert(self, data):
         if self.key is None:
-            self.key = data
+            self.key = data[0]
+            self.data = data[1]
             self.root().count += 1
             return True
-
         else:
             newItem = Heap(True, data)
             if self.findNextInsert().left is None:
@@ -163,7 +164,7 @@ class Heap:
     def save(self):
         if self.key is None:
             return {}
-        save = {'root': self.key}
+        save = {'root': self.data}
         if (self.right is not None) and (self.left is not None):
             save['children'] = [self.left.save(), self.right.save()]
         elif (self.right is not None) and (self.left is None):

@@ -65,10 +65,8 @@ class Parse:
                 line['args'][open] = line['args'][open][1:-1]  # verwijder de dubbele quotes
                 open = 0
                 close = 0
-
             if pop != -1:
                 line['args'].pop(pop)
-
         return splitted
 
     def delete_hashtags(self):

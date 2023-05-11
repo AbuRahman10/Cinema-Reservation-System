@@ -13,12 +13,6 @@ class heapTable:
     def tableDelete(self, key):
         return self.bst.heapDelete(key)
 
-    def tableRetrieve(self, key):
-        return self.bst.heapRetrieve(key)
-
-    def traverseTable(self, key = None):
-        return self.bst.heapifyDown(key)
-
     def save(self):
         return self.bst.save()
 

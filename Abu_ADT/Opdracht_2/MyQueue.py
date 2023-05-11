@@ -11,7 +11,7 @@ class StackItemType:
 
 class MyQueue:
 
-    def __init__(self,max_size):
+    def __init__(self,max_size=200):
         """
         Creëert een lege queue.
 

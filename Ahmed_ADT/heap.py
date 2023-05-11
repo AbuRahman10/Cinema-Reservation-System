@@ -1,16 +1,17 @@
 class Node:
     def __init__(self,value,parent=None,left=None,right=None):
-        self.value = value
+        self.value = value[0]
         self.left = left
         self.right = right
         self.parent = parent
+        self.data = value[1]
 class Heap:
     def __init__(self,maxHeap=True):
         self.root = None
         self.maxHeap = maxHeap
 
     def heapIsEmpty(self):
-        # Als er geen root is ,  leeg
+        # Als er geen root is, leeg
         if self.root is None:
             return True
         return False

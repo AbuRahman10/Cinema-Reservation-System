@@ -8,34 +8,65 @@ from Reservatie import *
 from Clock import timer
 import pandas as pd
 
-
-# Keuze Geadvanceerde ADT's
-admin = input("Choice Advanced ADT's - Abu | Sejar | Ahmed : ")
+# KEUZE GEAVANCEERDE ADT'S
+admin = input("Choice Admins - Abu | Sejar | Ahmed : ")
 admin = admin.lower()
 admins = ["abu","sejar","ahmed"]
-
-
 while admin not in admins:
-    admin = input("Choice Advanced ADT's - Abu | Sejar | Ahmed : ")
+    admin = input("Choice Admins - Abu | Sejar | Ahmed : ")
     admin = admin.lower()
-
 if admin == "abu":
     admin = "Abu"
-    from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
-    from Abu_ADT.Opdracht_3.BSTtable import *
-    from Abu_ADT.Opdracht_4.Hashmap.HashmapTable import *
-
 elif admin == "sejar":
     admin = "Sejar"
-    from Sejar_ADT.Heap import *
-    from Sejar_ADT.BSTWrapper import *
-    from Sejar_ADT.LinkedChainTable import *
-
 elif admin == "ahmed":
     admin = "Ahmed"
-    from Ahmed_ADT.heapWrapper import *
+
+bst = input("Choice BST - Abu | Sejar | Ahmed : ")
+bst = bst.lower()
+while bst not in admins:
+    bst = input("Choice BST - Abu | Sejar | Ahmed : ")
+    bst = bst.lower()
+if bst == "abu":
+    from Abu_ADT.Opdracht_3.BSTtable import *
+elif bst == "sejar":
+    from Sejar_ADT.BSTWrapper import *
+elif bst == "ahmed":
     from Ahmed_ADT.BSTWrapper import *
+
+linkedchain = input("Choice LinkedChain - Abu | Sejar | Ahmed : ")
+linkedchain = linkedchain.lower()
+while linkedchain not in admins:
+    linkedchain = input("Choice LinkedChain - Abu | Sejar | Ahmed : ")
+    linkedchain = linkedchain.lower()
+if linkedchain == "abu":
+    from Abu_ADT.Opdracht_4.Hashmap.LinkedChainTable import *
+elif linkedchain == "sejar":
+    from Sejar_ADT.LinkedChainTable import *
+elif linkedchain == "ahmed":
     from Ahmed_ADT.LinkedChainTable import *
+
+heap = input("Choice Heap - Sejar | Ahmed : ")
+heap = heap.lower()
+while heap not in admins:
+    heap = input("Choice Heap - Sejar | Ahmed : ")
+    heap = heap.lower()
+if heap == "sejar":
+    from Sejar_ADT.heapWrapper import *
+elif heap == "ahmed":
+    from Ahmed_ADT.heapWrapper import *
+
+queue = input("Choice Queue - Abu | Sejar | Ahmed : ")
+queue = queue.lower()
+while queue not in admins:
+    queue = input("Choice Queue - Abu | Sejar | Ahmed : ")
+    queue = queue.lower()
+if queue == "sejar":
+    from Abu_ADT.Opdracht_2.queueTable import *
+elif queue == "ahmed":
+    from Ahmed_ADT.queueTable import *
+elif queue == "abu":
+    from Abu_ADT.Opdracht_2.queueTable import *
 
 class Reservatiesysteem:
 
@@ -48,7 +79,7 @@ class Reservatiesysteem:
         self.zalen = LinkedChainTable()
         self.films = LinkedChainTable()
         self.gebruikers = BSTTable()
-        self.reservaties = LinkedChainTable()
+        self.reservaties = heapTable()
         self.vertoningen = LinkedChainTable()
 
         # alleen bij LINKEDCHAIN!
@@ -57,138 +88,123 @@ class Reservatiesysteem:
         self.indexReservatie = 1
         self.indexZaal = 1
 
+    def getVertoningen(self):
+        return self.vertoningen.save()
+    def getFilms(self):
+        return self.films.save()
+    def getGebruikers(self):
+        return self.gebruikers.save()
+    def getReservaties(self):
+        return self.reservaties.save()
+    def getZalen(self):
+        return self.zalen.save()
+    def getVertoning(self,id):
+        vertoningen = self.getVertoningen()
+        vertoning = Vertoning()
+        bestaat = False
+        for i in vertoningen:
+            if i.id == id:
+                vertoning = i
+                bestaat = True
+        return vertoning,bestaat
+    def getZaal(self,zaalnummer):
+        zaal = Zaal()
+        zaal_bestaat = False
+        zalen = self.getZalen()
+        for zl in zalen:
+            if zl.nummer == zaalnummer:
+                zaal_bestaat = True
+                zaal = zl
+        return zaal,zaal_bestaat
     def addGebruiker(self, id, voornaam, achternaam, emailadres):
-
         gebruiker = Gebruiker()
         if self.gebruikers.tableRetrieve(id)[1]:
             print("\033[1;31mGebruiker met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
             return False
-
         gebruiker.maak_gebruiker(id, voornaam, achternaam, emailadres)
         self.gebruikers.tableInsert((id, gebruiker)) # hier moeten we de object zelf inserten ipv input
-
         print("Gebruiker met id " + str(id) + " is gemaakt!")
         return True
-
     def addFilm(self, id, titel, rating):
-
         film = Film()
-
-        for i in self.films.save():
+        for i in self.getFilms():
             if i.id == id or i.get_titel() == titel:
                 print("\033[1;31mFilm met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
                 return False
-
         film.voegfilmtoe(id, titel, rating)
         if (self.films.tableInsert(self.indexFilm, film)):
             self.indexFilm += 1
             print(titel + " is aangemaakt!")
         return True
-
-    def addReservatie(self, timestamp, userid, vertoningid, aantalplaatsen):
-        reservatie = Reservatie()
-
-        vertoningen = self.vertoningen.save()
-        vertoning =  Vertoning()
-        bestaat = False
-        for i in vertoningen:
-            if i.id == vertoningid:
-                vertoning = i
-                bestaat = True
-        if bestaat == False or vertoning.get_vrije_plaatsen() <= aantalplaatsen:
-            return False
-        aantal_vrij = vertoning.get_vrije_plaatsen() - aantalplaatsen  # het nieuwe aantal vrije plaatsen
-        vertoning.vrijeplaatsen = aantal_vrij
-
-        reservatie.maak_reservatie(timestamp, userid, vertoningid, aantalplaatsen)
-        if (self.reservaties.tableInsert(self.indexReservatie, reservatie)):
-            print("Reservatie van user " + str(userid) + " is aangemaakt!")
-            self.indexReservatie += 1
-        return True
-
     def addVertoning(self,id,zaalnummer,slot,datum,filmid, vrijePlaatsen):
         vertoning = Vertoning()
-
-        showtimes = self.vertoningen.save()
-        for i in showtimes:
+        for i in self.getVertoningen():
             if i.id == id or (i.datum == datum and i.slot == slot and i.get_zaalnummer() == zaalnummer):
                 print("\033[1;31mVertoning met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
                 return False
-
         vertoning.maak_vertoning(id,zaalnummer,slot,datum,filmid, vrijePlaatsen)
         if (self.vertoningen.tableInsert(self.indexVertoning,vertoning)):
             print("Vertoning " + str(id) + " is aangemaakt!")
             self.indexVertoning += 1
         return True
-
     def addZaal(self,zaalnummer,plaatsen):
         zaal = Zaal()
-
-        zalen = self.zalen.save()
-        for i in zalen:
+        for i in self.getZalen():
             if i.nummer == zaalnummer:
                 print("\033[1;31mZaal met id: \033[0m" + str(zaalnummer) + " \033[1;31mis al gemaakt!\033[0m")
                 return False
-
         zaal.maak_zaal(zaalnummer,plaatsen)
         if (self.zalen.tableInsert(self.indexZaal, zaal)):
             print("Zaal " + str(zaalnummer) + " is aangemaakt!")
             self.indexZaal += 1
         return True
-
-    def getVertoning(self,id):
-        return self.vertoningen.tableRetrieve(id)[1]
-
+    def addReservatie(self, timestamp, userid, vertoningid, tickets):
+        reservatie = Reservatie()
+        vertoning, bestaat = self.getVertoning(vertoningid)
+        if bestaat is False or vertoning.get_vrije_plaatsen() <= tickets:
+            print("\033[1;31mReservatie van user: \033[0m" + str(userid) + " \033[1;31mkan niet worden gemaakt!\033[0m")
+            return False
+        aantal_vrij = vertoning.get_vrije_plaatsen() - tickets  # AANPASSING VRIJE PLAATSEN
+        vertoning.vrijeplaatsen = aantal_vrij
+        reservatie.maak_reservatie(timestamp, userid, vertoningid, tickets)
+        if self.reservaties.tableInsert((userid,reservatie)):
+            print("Reservatie van user " + str(userid) + " is aangemaakt!")
+            self.indexReservatie += 1
+        return True
     def updateTickets(self, vertoning_id, tickets):
-
-        vertoning = Vertoning()
-        zaal = Zaal()
-        vertoning_bestaat = False
-        zaal_bestaat = False
-        vertoningen = self.vertoningen.save()
-        zalen = self.zalen.save()
-
-        for vtn in vertoningen:
-            if vtn.id == vertoning_id:
-                vertoning_bestaat = True
-                vertoning = vtn
-
+        vertoning, vertoning_bestaat = self.getVertoning(vertoning_id)
         if vertoning_bestaat:
             vertoning.plaatsenbezet += tickets
-            for zl in zalen:
-                if zl.nummer == vertoning.get_zaalnummer():
-                    zaal_bestaat = True
-                    zaal = zl
+            zaal, zaal_bestaat = self.getZaal(vertoning.get_zaalnummer())
             if zaal_bestaat and vertoning.get_plaatsenbezet() + vertoning.get_vrije_plaatsen() == zaal.get_plaatsen():
                 vertoning.start()
             return True
         return False
-
-    def log(self,tijd):
-        films = self.films.save()
-        vertoningen = self.vertoningen.save()
-        zalen = self.zalen.save()
-
+    def vertoningInfo(self):
+        films = self.getFilms()
+        vertoningen = self.getVertoningen()
         datum_film = []
         for vertoning in vertoningen:
-            zaal = Zaal()
-            for zl in zalen:
-                if zl.nummer == vertoning.get_zaalnummer():
-                    zaal = zl
+            zaal, zaal_bestaat = self.getZaal(vertoning.get_zaalnummer())
             for film in films:
                 if vertoning.filmid == film.id:
-                    tup = tuple\
+                    datum_film.append\
                     (
-                        (
-                            vertoning,str(vertoning.datum.date()),
-                            film.get_titel(),"Screening: " + str(vertoning.id),
+                        tuple
+                        ((
+                            vertoning,
+                            str(vertoning.datum.date()),
+                            film.get_titel(),
+                            "Screening: " + str(vertoning.id),
                             str(vertoning.slot),
                             str(vertoning.get_plaatsenbezet()),
                             zaal
-                         )
+                        ))
                     )
-                    datum_film.append(tup)
+        return datum_film
 
+    def log(self,tijd):
+        datum_film = self.vertoningInfo()
         nummer_vertoning = []
         datum = []
         filmslist = []
@@ -197,7 +213,6 @@ class Reservatiesysteem:
         _17u00 = []
         _20u00 = []
         _22u30 = []
-
         def voegF_Toe(nm,tickets,slotFinal,slot1, slot2, slot3, slot4):
             for x in nummer_vertoning:
                 if nm == x:
@@ -274,9 +289,6 @@ class Reservatiesysteem:
             else:
                 voegG_toe(slot,vert,zl,nm)
 
-
-
-        # define the table and style as before
         tabel = {
             'Film Screening': nummer_vertoning,
             'Date': datum,
@@ -287,6 +299,7 @@ class Reservatiesysteem:
             '20.00': _20u00,
             '22.30': _22u30
         }
+
         my_data = pd.DataFrame(data=tabel)
         html = my_data.to_html(index=False)
 
@@ -294,6 +307,7 @@ class Reservatiesysteem:
         <style>
         body {
             background-color: #4444FF;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         table {
@@ -335,9 +349,11 @@ class Reservatiesysteem:
         </style>
         '''
 
+        adm = admin.upper()
+        begin = f"<div style='text-align:center; font-family: Calisto MT, sans-serif; font-size: 28px; color: #FF3396;'> {adm}'S LOG: {tijd} </div>"
         with open("kinepolis_logo.png", "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
         image_html = f'<div style="text-align:center;padding-top:50px;"><img src="data:image/png;base64,{encoded_string}" style="max-width: 150px; height: auto;"/></div>'
-        full_html = f"<html><head>{css}</head><body>{html}<br>{image_html}</body></html>"
+        full_html = f"<html><head>{css}</head><body>{html}<br>{begin}{image_html}</body></html>"
         with open('log.html', 'w') as f:
             f.write(full_html)
