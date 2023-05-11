@@ -10,8 +10,6 @@ class Perform:
         pars = Parse(filename)
         # INFORMATIE LEZEN EN IN EEN DICTIONARY
         self.parsed = pars.parse()
-        # RUNT ALLES
-        self.run()
     def run(self):
         for line in self.parsed:
             # WACHT ALS ER OP EEN TIJDSTIP GEWACHT MOET WORDEN
@@ -56,5 +54,3 @@ class Perform:
         print(f"\033[1;32m          {timer} Kinepolis LOG\033[0m")
         print("----------------------------------------------------------")
         self.r.log(str(timer))
-
-system = Perform('new_system.txt')

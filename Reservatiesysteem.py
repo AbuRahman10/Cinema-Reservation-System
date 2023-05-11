@@ -69,6 +69,13 @@ elif queue == "ahmed":
 elif queue == "abu":
     from Abu_ADT.Opdracht_2.queueTable import *
 
+queue_heaps = ["queue","heap"]
+queue_heap = input("Reservatie Klasse: Queue of Heap?: ")
+queue_heap = queue_heap.lower()
+while queue_heap not in queue_heaps:
+    queue_heap = input("Reservatie Klasse: Queue of Heap?: ")
+    queue_heap = queue_heap.lower()
+
 class Reservatiesysteem:
 
     def __init__(self):
@@ -80,7 +87,10 @@ class Reservatiesysteem:
         self.zalen = LinkedChainTable()
         self.films = LinkedChainTable()
         self.gebruikers = BSTTable()
-        self.reservaties = heapTable()
+        if queue_heap == "queue":
+            self.reservaties = heapTable()
+        elif queue_heap == "heap":
+            self.reservaties = queueTable()
         self.vertoningen = LinkedChainTable()
 
         # alleen bij LINKEDCHAIN!
