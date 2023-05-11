@@ -3,13 +3,7 @@ from Parse import *
 import datetime
 from Reservatiesysteem import Reservatiesysteem
 
-functions = {
-    'zaal': 'addZaal',
-    'film': 'addFilm',
-    'vertoning': 'addVertoning',
-    'gebruiker': 'addGebruiker',
-    'reserveer': 'addReservatie',
-    'ticket': 'updateTickets'}
+functions = {'zaal': 'addZaal','film': 'addFilm','vertoning': 'addVertoning','gebruiker': 'addGebruiker','reserveer': 'addReservatie','ticket': 'updateTickets'}
 
 class Perform:
     def __init__(self, filename: str):
@@ -42,20 +36,25 @@ class Perform:
             eval('self.r.' + functions[line['cmd']] + str(tuple(line['args'])))
             timer.toggle() # SCHAKELT KLOK AAN
     def init(self):
-        print(f"Initializing Reservatie systeem")
+        print("------------------------------------------------------------------------")
+        print("\033[1;34m            Kinepolis Reservatie systeem geïnitialiseert\033[0m")
+        print("------------------------------------------------------------------------")
         self.r = Reservatiesysteem()
     def await_(self, time: datetime.datetime):
         timer.setTime(time)
     def start(self):
-        print("Starting Reservatie systeem")
+        print("------------------------------------------------------------")
+        print("\033[1;34m           Kinepolis Reservatie systeem gestart\033[0m")
+        print("------------------------------------------------------------")
         dt = datetime.datetime(2023, 10, 5)
         dt = dt.replace(hour=8, minute=0, second=0, microsecond=0)
         timer.setTime(dt)
         timer.start()
 
     def log(self):
-        print(f"{timer} Kinepolis", "log")
+        print("----------------------------------------------------------")
+        print(f"\033[1;32m          {timer} Kinepolis LOG\033[0m")
+        print("----------------------------------------------------------")
         self.r.log(str(timer))
 
 system = Perform('new_system.txt')
-print()

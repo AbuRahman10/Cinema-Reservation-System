@@ -46,9 +46,10 @@ elif linkedchain == "sejar":
 elif linkedchain == "ahmed":
     from Ahmed_ADT.LinkedChainTable import *
 
+heaps = ["sejar","ahmed"]
 heap = input("Choice Heap - Sejar | Ahmed : ")
 heap = heap.lower()
-while heap not in admins:
+while heap not in heaps:
     heap = input("Choice Heap - Sejar | Ahmed : ")
     heap = heap.lower()
 if heap == "sejar":
@@ -62,7 +63,7 @@ while queue not in admins:
     queue = input("Choice Queue - Abu | Sejar | Ahmed : ")
     queue = queue.lower()
 if queue == "sejar":
-    from Abu_ADT.Opdracht_2.queueTable import *
+    from Sejar_ADT.queueTable import *
 elif queue == "ahmed":
     from Ahmed_ADT.queueTable import *
 elif queue == "abu":
@@ -85,7 +86,6 @@ class Reservatiesysteem:
         # alleen bij LINKEDCHAIN!
         self.indexVertoning = 1
         self.indexFilm = 1
-        self.indexReservatie = 1
         self.indexZaal = 1
 
     def getVertoningen(self):
@@ -142,6 +142,10 @@ class Reservatiesysteem:
             if i.id == id or (i.datum == datum and i.slot == slot and i.get_zaalnummer() == zaalnummer):
                 print("\033[1;31mVertoning met id: \033[0m" + str(id) + " \033[1;31mis al gemaakt!\033[0m")
                 return False
+        zaal, zaal_bestaat = self.getZaal(zaalnummer)
+        if zaal_bestaat is False:
+            print("\033[1;31mZaal met nummer: \033[0m" + str(zaalnummer) + " \033[1;31mbestaat niet!\033[0m")
+            return False
         vertoning.maak_vertoning(id,zaalnummer,slot,datum,filmid, vrijePlaatsen)
         if (self.vertoningen.tableInsert(self.indexVertoning,vertoning)):
             print("Vertoning " + str(id) + " is aangemaakt!")
@@ -161,25 +165,27 @@ class Reservatiesysteem:
     def addReservatie(self, timestamp, userid, vertoningid, tickets):
         reservatie = Reservatie()
         vertoning, bestaat = self.getVertoning(vertoningid)
-        if bestaat is False or vertoning.get_vrije_plaatsen() <= tickets:
+        if bestaat is False or tickets >= vertoning.get_vrije_plaatsen():
             print("\033[1;31mReservatie van user: \033[0m" + str(userid) + " \033[1;31mkan niet worden gemaakt!\033[0m")
             return False
         aantal_vrij = vertoning.get_vrije_plaatsen() - tickets  # AANPASSING VRIJE PLAATSEN
         vertoning.vrijeplaatsen = aantal_vrij
+        vertoning.reservaties += tickets
         reservatie.maak_reservatie(timestamp, userid, vertoningid, tickets)
         if self.reservaties.tableInsert((userid,reservatie)):
             print("Reservatie van user " + str(userid) + " is aangemaakt!")
-            self.indexReservatie += 1
         return True
     def updateTickets(self, vertoning_id, tickets):
         vertoning, vertoning_bestaat = self.getVertoning(vertoning_id)
-        if vertoning_bestaat:
+        if vertoning_bestaat and tickets <= vertoning.reservaties:
             vertoning.plaatsenbezet += tickets
             zaal, zaal_bestaat = self.getZaal(vertoning.get_zaalnummer())
             if zaal_bestaat and vertoning.get_plaatsenbezet() + vertoning.get_vrije_plaatsen() == zaal.get_plaatsen():
                 vertoning.start()
             return True
-        return False
+        else:
+            print(str(tickets) + "\033[1;31m mensen kunnen niet Vertoning: \033[0m" + str(vertoning_id) + "\033[1;31m bekijken!\033[0m")
+            return False
     def vertoningInfo(self):
         films = self.getFilms()
         vertoningen = self.getVertoningen()
@@ -207,6 +213,7 @@ class Reservatiesysteem:
         datum_film = self.vertoningInfo()
         nummer_vertoning = []
         datum = []
+        zaal = []
         filmslist = []
         _11u00 = []
         _14u30 = []
@@ -274,23 +281,30 @@ class Reservatiesysteem:
 
 
         for vert,dat,film,nm,slot,tickets,zl in datum_film:
+            zaal.append(zl.nummer)
             nummer_vertoning.append(nm)
             datum.append(dat)
             filmslist.append(film)
             d = datetime
+            # FILM IS BEZIG
             if vert.is_bezig():
                 voegF_toe(slot,nm,tickets)
-            elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and d.combine(vert.get_datum(), vert.get_slot()) <= timer.getTime():
+            # ZAAL IS HELEMAAL LEEG EN VERTONING IS AL VOORBIJ
+            elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and timer.getTime() >= d.combine(vert.get_datum(), vert.get_slot()) :
                 voegF_toe(slot,nm,tickets)
-            elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and d.combine(vert.get_datum(),vert.get_slot()) > timer.getTime():
+            # ZAAL IS HELEMAAL LEEG EN VERTONING IS NOG NIET VOORBIJ
+            elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and timer.getTime() < d.combine(vert.get_datum(), vert.get_slot()):
                 voegG_toe(slot,vert,zl,nm)
+            # ZAAL IS AAN HET WACHTEN VOOR MENSEN (VERTONING IS NOG NIET VOORBIJ)
             elif vert.aan_het_wachten():
                 voegW_toe(slot,vert,zl,nm)
             else:
                 voegG_toe(slot,vert,zl,nm)
 
-        tabel = {
+        tabel = \
+        {
             'Film Screening': nummer_vertoning,
+            'Zaal': zaal,
             'Date': datum,
             'Film': filmslist,
             '11.00': _11u00,

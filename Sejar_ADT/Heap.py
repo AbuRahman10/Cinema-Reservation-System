@@ -4,10 +4,13 @@ class Heap:
         self.left = None
         self.right = None
         self.type = maxHeap
-        self.key = key
+        if key is not None:
+            self.key = key[0]
+            self.data = key[1]
+        else:
+            self.key = None
+            self.data = None
         self.count = 0
-        self.data = None
-
     def heapIsEmpty(self):
         return self.key is None
 

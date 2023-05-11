@@ -8,7 +8,7 @@ class queueTable:
         return self.queue.isEmpty()
 
     def tableInsert(self, value):
-        return self.queue.enqueue(value)
+        return self.queue.enqueue(value[1])
 
     def tableDelete(self, key):
         return self.queue.dequeue()

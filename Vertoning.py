@@ -12,6 +12,7 @@ class Vertoning:
         self.vrijeplaatsen = None #vrijplaatsen nog niet bekent
         self.bezig = False
         self.plaatsenbezet = 0
+        self.reservaties = 0
 
     ##functionalteit
     def maak_vertoning(self,id,zaalnummer,slot,datum,filmid, vrijeplaatsen):
@@ -33,7 +34,6 @@ class Vertoning:
         self.datum = datum
         self.filmid = filmid
         self.vrijeplaatsen = vrijeplaatsen
-
 
     def get_id(self):
 
@@ -73,19 +73,15 @@ class Vertoning:
 
     def aan_het_wachten(self):
 
-        return datetime.combine(self.datum, self.slot) <= timer.getTime() and not self.is_bezig()
+        return timer.getTime() >= datetime.combine(self.datum, self.slot) and not self.is_bezig()
 
     def get_plaatsenbezet(self):
 
         return self.plaatsenbezet
 
-    def get_film(self,id):
+    def get_filmId(self):
         """
-        vergeeft de film die in deze vertoning zit.
-        :param Film: unieke string
-        :return: de film.
+        geeft de film id die in deze vertoning zit.
+        :return: de film id.
         """
-        if id == self.filmid:
-            return id
-        else:
-            print("Geen film met deze " + str(id))
+        return self.filmid

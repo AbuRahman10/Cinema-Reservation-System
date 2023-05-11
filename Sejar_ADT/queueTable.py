@@ -1,4 +1,4 @@
-from Ahmed_ADT.LinkbasedQueue import *
+from Sejar_ADT.MyQueue import *
 
 class queueTable:
     def __init__(self):

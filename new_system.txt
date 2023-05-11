@@ -2,6 +2,7 @@
 init
 zaal 1 200
 zaal 2 20
+zaal 2 20
 film 3 "The Matrix" 0.95
 film 3 "De Matriks" 0.1
 film 5 "The Hunger Games" 0.8
@@ -12,6 +13,7 @@ film 5 "The Hunger Games" 0.8
 vertoning 9 1 1 2020-10-10 3 200
 vertoning 10 1 2 2020-10-10 3 200
 vertoning 11 1 3 2020-10-10 3 200
+vertoning 11 1 3 2020-10-10 3 200
 
 vertoning 2 2 1 2020-10-10 5 20
 vertoning 3 2 3 2020-10-11 5 20
@@ -21,9 +23,9 @@ vertoning 4 2 4 2020-10-12 5 20
 
 gebruiker 1 John Doe john@doe.com
 gebruiker 2 Tom Hofkens tom.hofkens@uantwerpen.be
-gebruiker 3 Niels VandenBroeck niels.vandenbroeck@uantwerpen.be
-gebruiker 4 Khemin vangestelen khemin.vangestelen@uantwerpen.be
-gebruiker 5 Robin Dillen robin.dillen@uantwerpen.be
+gebruiker 3 Abu Rahman abu.rahman@uantwerpen.be
+gebruiker 4 Sejar Dindar sejar.dindar@uantwerpen.be
+gebruiker 5 Ahmed AL ahmed.al@uantwerpen.be
 
 # start het systeem op
 start
@@ -41,10 +43,12 @@ start
 2020-10-07 12:00 reserveer 3 3 2
 # user 4 bestelt 5 ticketten voor vertoning 3
 2020-10-07 12:00 reserveer 4 3 5
-# user 5 bestelt 14 ticketten voor vertoning 3 (gaat niet want te veel plaatsen)
+# user 5 bestelt 14 ticketten voor vertoning 3
 2020-10-07 12:00 reserveer 5 3 14
 # user 5 bestelt 3 ticketten voor vertoning 4
 2020-10-07 12:00 reserveer 5 4 3
+
+
 # er komen 8 mensen vertoning 9 bekijken
 2020-10-10 13:45 ticket 9 8
 # er komen 20 mensen vertoning 2 bekijken
