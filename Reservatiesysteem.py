@@ -87,9 +87,9 @@ class Reservatiesysteem:
         self.zalen = LinkedChainTable()
         self.films = LinkedChainTable()
         self.gebruikers = BSTTable()
-        if queue_heap == "queue":
+        if queue_heap == "heap":
             self.reservaties = heapTable()
-        elif queue_heap == "heap":
+        elif queue_heap == "queue":
             self.reservaties = queueTable()
         self.vertoningen = LinkedChainTable()
 
