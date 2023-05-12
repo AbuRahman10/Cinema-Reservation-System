@@ -196,10 +196,10 @@ class Reservatiesysteem:
             zaal, zaal_bestaat = self.getZaal(vertoning.get_zaalnummer())
             if zaal_bestaat and vertoning.get_plaatsenbezet() + vertoning.get_vrije_plaatsen() == zaal.get_plaatsen():
                 vertoning.start()
-                print("Tickets geaccepteerd voor vertoning " + str(vertoning_id) + " !")
+                print(str(tickets),"Tickets geaccepteerd voor vertoning " + str(vertoning_id) + "!")
                 print("\033[1;35mVertoning met id: \033[0m" + str(vertoning_id) + " \033[1;35mis gestart!\033[0m")
                 return True
-            print("Tickets geaccepteerd voor vertoning " + str(vertoning_id) + " !")
+            print(str(tickets),"Tickets geaccepteerd voor vertoning " + str(vertoning_id) + "!")
             return True
         else:
             print(str(tickets) + "\033[1;31m mensen kunnen niet Vertoning: \033[0m" + str(vertoning_id) + "\033[1;31m bekijken! (Geen Reservatie)\033[0m")
