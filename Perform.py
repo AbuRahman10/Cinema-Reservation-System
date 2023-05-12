@@ -8,7 +8,7 @@ functions = {'zaal': 'addZaal','film': 'addFilm','vertoning': 'addVertoning','ge
 class Perform:
     def __init__(self, filename: str):
         pars = Parser(filename)
-        # INFORMATIE LEZEN EN IN EEN DICTIONARY
+        # INFORMATIE LEZEN EN IN EEN DICTIONARY ZETTEN
         self.parsed = pars.parse()
     def run(self):
         for line in self.parsed:

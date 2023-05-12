@@ -8,7 +8,6 @@ from Reservatie import *
 from Clock import timer
 import pandas as pd
 
-# KEUZE GEAVANCEERDE ADT'S
 admin = input("Choice Admins - Abu | Sejar | Ahmed : ")
 admin = admin.lower()
 admins = ["abu","sejar","ahmed"]
@@ -22,6 +21,7 @@ elif admin == "sejar":
 elif admin == "ahmed":
     admin = "Ahmed"
 
+# KEUZE GEAVANCEERDE ADT'S
 bst = input("Choice BST - Abu | Sejar | Ahmed : ")
 bst = bst.lower()
 while bst not in admins:
@@ -126,6 +126,9 @@ class Reservatiesysteem:
                 zaal_bestaat = True
                 zaal = zl
         return zaal,zaal_bestaat
+
+    def getGebruiker(self,id):
+        return self.gebruikers.tableRetrieve(id)
     def addGebruiker(self, id, voornaam, achternaam, emailadres):
         gebruiker = Gebruiker()
         if self.gebruikers.tableRetrieve(id)[1]:
@@ -175,8 +178,9 @@ class Reservatiesysteem:
     def addReservatie(self, timestamp, userid, vertoningid, tickets):
         reservatie = Reservatie()
         vertoning, bestaat = self.getVertoning(vertoningid)
-        if bestaat is False or tickets >= vertoning.get_vrije_plaatsen():
-            print("\033[1;31mReservatie van user: \033[0m" + str(userid) + " \033[1;31mkan niet worden gemaakt!\033[0m")
+        gebruiker_bestaat = self.getGebruiker(userid)[1]
+        if bestaat is False or gebruiker_bestaat is False or tickets >= vertoning.get_vrije_plaatsen():
+            print("\033[1;31mReservatie van user: \033[0m" + str(userid) + " \033[1;31mkan niet aangemaakt worden!\033[0m")
             return False
         aantal_vrij = vertoning.get_vrije_plaatsen() - tickets  # AANPASSING VRIJE PLAATSEN
         vertoning.vrijeplaatsen = aantal_vrij

@@ -28,6 +28,7 @@ start
 2023-10-05 11:30 reserveer 2 9 8
 # user 2 bestelt 2 ticketten voor vertoning 10
 2023-10-05 11:30 reserveer 2 10 2
+2023-10-05 11:30 reserveer 5 10 2
 
 # er komen 8 mensen vertoning 9 bekijken
 2023-10-10 13:45 ticket 9 8
