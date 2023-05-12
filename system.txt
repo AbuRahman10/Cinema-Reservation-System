@@ -33,6 +33,7 @@ start
 2023-10-10 13:45 ticket 9 8
 # er komen 2 mensen vertoning 9 bekijken
 2023-10-10 14:35 ticket 9 2
+2023-10-10 14:35 ticket 9 2
 
 # op dit moment is iedereen in de zaal
 # en begint de film

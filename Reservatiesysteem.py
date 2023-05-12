@@ -191,16 +191,21 @@ class Reservatiesysteem:
         return True
     def updateTickets(self, vertoning_id, tickets):
         vertoning, vertoning_bestaat = self.getVertoning(vertoning_id)
-        if vertoning_bestaat and tickets <= vertoning.reservaties:
+        if vertoning_bestaat:
             vertoning.plaatsenbezet += tickets
-            zaal, zaal_bestaat = self.getZaal(vertoning.get_zaalnummer())
-            if zaal_bestaat and vertoning.get_plaatsenbezet() + vertoning.get_vrije_plaatsen() == zaal.get_plaatsen():
-                vertoning.start()
+            if vertoning.plaatsenbezet <= vertoning.reservaties:
+                zaal, zaal_bestaat = self.getZaal(vertoning.get_zaalnummer())
+                if zaal_bestaat and vertoning.get_plaatsenbezet() + vertoning.get_vrije_plaatsen() == zaal.get_plaatsen():
+                    vertoning.start()
+                    print(str(tickets),"Tickets geaccepteerd voor vertoning " + str(vertoning_id) + "!")
+                    print("\033[1;35mVertoning met id: \033[0m" + str(vertoning_id) + " \033[1;35mis gestart!\033[0m")
+                    return True
                 print(str(tickets),"Tickets geaccepteerd voor vertoning " + str(vertoning_id) + "!")
-                print("\033[1;35mVertoning met id: \033[0m" + str(vertoning_id) + " \033[1;35mis gestart!\033[0m")
                 return True
-            print(str(tickets),"Tickets geaccepteerd voor vertoning " + str(vertoning_id) + "!")
-            return True
+            else:
+                print(str(tickets) + "\033[1;31m mensen kunnen niet Vertoning: \033[0m" + str(
+                    vertoning_id) + "\033[1;31m bekijken! (Geen Reservatie)\033[0m")
+                return False
         else:
             print(str(tickets) + "\033[1;31m mensen kunnen niet Vertoning: \033[0m" + str(vertoning_id) + "\033[1;31m bekijken! (Geen Reservatie)\033[0m")
             return False
@@ -313,7 +318,7 @@ class Reservatiesysteem:
             # ZAAL IS HELEMAAL LEEG EN VERTONING IS NOG NIET VOORBIJ
             elif vert.get_vrije_plaatsen() == zl.get_plaatsen() and timer.getTime() < d.combine(vert.get_datum(), vert.get_slot()):
                 voegG_toe(slot,vert,zl,nm)
-            # ZAAL IS AAN HET WACHTEN VOOR MENSEN (VERTONING IS NOG NIET VOORBIJ)
+            # ZAAL IS AAN HET WACHTEN VOOR MENSEN
             elif vert.aan_het_wachten():
                 voegW_toe(slot,vert,zl,nm)
             else:
