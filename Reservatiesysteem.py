@@ -179,7 +179,7 @@ class Reservatiesysteem:
         reservatie = Reservatie()
         vertoning, bestaat = self.getVertoning(vertoningid)
         gebruiker_bestaat = self.getGebruiker(userid)[1]
-        if bestaat is False or gebruiker_bestaat is False or tickets >= vertoning.get_vrije_plaatsen():
+        if bestaat is False or gebruiker_bestaat is False or tickets > vertoning.get_vrije_plaatsen():
             print("\033[1;31mReservatie van user: \033[0m" + str(userid) + " \033[1;31mkan niet aangemaakt worden!\033[0m")
             return False
         aantal_vrij = vertoning.get_vrije_plaatsen() - tickets  # AANPASSING VRIJE PLAATSEN
@@ -187,7 +187,7 @@ class Reservatiesysteem:
         vertoning.reservaties += tickets
         reservatie.maak_reservatie(timestamp, userid, vertoningid, tickets)
         if self.reservaties.tableInsert((userid,reservatie)):
-            print("Reservatie van user " + str(userid) + " is aangemaakt!")
+            print("Reservatie van user " + str(userid) + " is aangemaakt voor Vertoning: " + str(vertoningid)+ "!")
         return True
     def updateTickets(self, vertoning_id, tickets):
         vertoning, vertoning_bestaat = self.getVertoning(vertoning_id)
