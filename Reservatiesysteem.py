@@ -341,12 +341,10 @@ class Reservatiesysteem:
             'Zaal': zaal,
             'Date': datum,
             'Film': filmslist,
-            '11.00': vroeger_slot,
             '14.30': _14u30,
             '17.00': _17u00,
             '20.00': _20u00,
             '22.30': _22u30,
-            '23.30': later_slot
         }
 
         my_data = pd.DataFrame(data=tabel)
