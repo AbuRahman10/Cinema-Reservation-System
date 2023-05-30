@@ -238,12 +238,13 @@ class Reservatiesysteem:
         datum = []
         zaal = []
         filmslist = []
-        _11u00 = []
+        vroeger_slot = []
         _14u30 = []
         _17u00 = []
         _20u00 = []
         _22u30 = []
-        def voegF_Toe(nm,tickets,slotFinal,slot1, slot2, slot3, slot4):
+        later_slot = []
+        def voegF_Toe(nm,tickets,slotFinal,slot1, slot2, slot3, slot4, slot5):
             for x in nummer_vertoning:
                 if nm == x:
                     slotFinal.append("F:" + str(tickets))
@@ -251,7 +252,8 @@ class Reservatiesysteem:
                     slot2.append(" ")
                     slot3.append(" ")
                     slot4.append(" ")
-        def voegG_Toe(vert,zl,nm,slotFinal,slot1, slot2, slot3, slot4):
+                    slot5.append(" ")
+        def voegG_Toe(vert,zl,nm,slotFinal,slot1, slot2, slot3, slot4, slot5):
             for x in nummer_vertoning:
                 if nm == x:
                     slotFinal.append("G:" + str(zl.get_plaatsen() - vert.get_vrije_plaatsen()))
@@ -259,7 +261,8 @@ class Reservatiesysteem:
                     slot2.append(" ")
                     slot3.append(" ")
                     slot4.append(" ")
-        def voegW_Toe(vert,zl,nm,slotFinal,slot1, slot2, slot3, slot4):
+                    slot5.append(" ")
+        def voegW_Toe(vert,zl,nm,slotFinal,slot1, slot2, slot3, slot4, slot5):
             for x in nummer_vertoning:
                 if nm == x:
                     slotFinal.append("W:" + str(zl.get_plaatsen() - (vert.get_plaatsenbezet() + vert.get_vrije_plaatsen())))
@@ -267,40 +270,46 @@ class Reservatiesysteem:
                     slot2.append(" ")
                     slot3.append(" ")
                     slot4.append(" ")
-
+                    slot5.append(" ")
+        vroeger_string = "11:00:00"
+        later_string = "23:30:00"
         def voegF_toe(slot,nm, tickets):
-            if slot == "11:00:00":
-                voegF_Toe(nm, tickets, _11u00, _14u30, _17u00, _20u00, _22u30)
+            if slot == vroeger_string:
+                voegF_Toe(nm, tickets, vroeger_slot, _14u30, _17u00, _20u00, _22u30, later_slot)
             elif slot == "14:30:00":
-                voegF_Toe(nm, tickets, _14u30, _11u00, _17u00, _20u00, _22u30)
+                voegF_Toe(nm, tickets, _14u30, vroeger_slot, _17u00, _20u00, _22u30, later_slot)
             elif slot == "17:00:00":
-                voegF_Toe(nm, tickets, _17u00, _14u30, _11u00, _20u00, _22u30)
+                voegF_Toe(nm, tickets, _17u00, _14u30, vroeger_slot, _20u00, _22u30, later_slot)
             elif slot == "20:00:00":
-                voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, _11u00, _22u30)
+                voegF_Toe(nm, tickets, _20u00, _14u30, _17u00, vroeger_slot, _22u30, later_slot)
             elif slot == "22:30:00":
-                voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, _11u00)
+                voegF_Toe(nm, tickets, _22u30, _14u30, _17u00, _20u00, vroeger_slot, later_slot)
+            elif slot == later_string:
+                voegF_Toe(nm, tickets, later_slot,_22u30, _14u30, _17u00, _20u00, vroeger_slot)
         def voegG_toe(slot,vert,zl,nm):
-            if slot == "11:00:00":
-                voegG_Toe(vert, zl, nm, _11u00, _14u30, _17u00, _20u00, _22u30)
+            if slot == vroeger_string:
+                voegG_Toe(vert, zl, nm, vroeger_slot, _14u30, _17u00, _20u00, _22u30, later_slot)
             elif slot == "14:30:00":
-                voegG_Toe(vert, zl, nm, _14u30, _11u00, _17u00, _20u00, _22u30)
+                voegG_Toe(vert, zl, nm, _14u30, vroeger_slot, _17u00, _20u00, _22u30, later_slot)
             elif slot == "17:00:00":
-                voegG_Toe(vert, zl, nm, _17u00, _14u30, _11u00, _20u00, _22u30)
+                voegG_Toe(vert, zl, nm, _17u00, _14u30, vroeger_slot, _20u00, _22u30, later_slot)
             elif slot == "20:00:00":
-                voegG_Toe(vert, zl, nm, _20u00, _14u30, _17u00, _11u00, _22u30)
+                voegG_Toe(vert, zl, nm, _20u00, _14u30, _17u00, vroeger_slot, _22u30, later_slot)
             elif slot == "22:30:00":
-                voegG_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+                voegG_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, vroeger_slot, later_slot)
+            elif slot == later_string:
+                voegG_Toe(vert, zl, nm, later_slot,_22u30, _14u30, _17u00, _20u00, vroeger_slot)
         def voegW_toe(slot,vert, zl, nm):
-            if slot == "11:00:00":
-                voegW_Toe(vert, zl, nm, _11u00, _14u30, _17u00, _20u00, _22u30)
+            if slot == vroeger_string:
+                voegW_Toe(vert, zl, nm, vroeger_slot, _14u30, _17u00, _20u00, _22u30, later_slot)
             elif slot == "14:30:00":
-                voegW_Toe(vert, zl, nm, _14u30, _11u00, _17u00, _20u00, _22u30)
+                voegW_Toe(vert, zl, nm, _14u30, vroeger_slot, _17u00, _20u00, _22u30, later_slot)
             elif slot == "17:00:00":
-                voegW_Toe(vert, zl, nm, _17u00, _14u30, _11u00, _20u00, _22u30)
+                voegW_Toe(vert, zl, nm, _17u00, _14u30, vroeger_slot, _20u00, _22u30, later_slot)
             elif slot == "20:00:00":
-                voegW_Toe(vert, zl, nm, _20u00, _14u30, _17u00, _11u00, _22u30)
+                voegW_Toe(vert, zl, nm, _20u00, _14u30, _17u00, vroeger_slot, _22u30, later_slot)
             elif slot == "22:30:00":
-                voegW_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, _11u00)
+                voegW_Toe(vert, zl, nm, later_slot,_22u30, _14u30, _17u00, _20u00, vroeger_slot)
 
 
         for vert,dat,film,nm,slot,tickets,zl in datum_film:
@@ -330,11 +339,10 @@ class Reservatiesysteem:
             'Zaal': zaal,
             'Date': datum,
             'Film': filmslist,
-            '11.00': _11u00,
             '14.30': _14u30,
             '17.00': _17u00,
             '20.00': _20u00,
-            '22.30': _22u30
+            '22.30': _22u30,
         }
 
         my_data = pd.DataFrame(data=tabel)
