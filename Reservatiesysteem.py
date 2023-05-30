@@ -309,7 +309,9 @@ class Reservatiesysteem:
             elif slot == "20:00:00":
                 voegW_Toe(vert, zl, nm, _20u00, _14u30, _17u00, vroeger_slot, _22u30, later_slot)
             elif slot == "22:30:00":
-                voegW_Toe(vert, zl, nm, later_slot,_22u30, _14u30, _17u00, _20u00, vroeger_slot)
+                voegW_Toe(vert, zl, nm, _22u30, _14u30, _17u00, _20u00, vroeger_slot, later_slot)
+            elif slot == later_string:
+                voegW_Toe(vert, zl, nm, later_slot, _22u30, _14u30, _17u00, _20u00, vroeger_slot)
 
 
         for vert,dat,film,nm,slot,tickets,zl in datum_film:
@@ -339,10 +341,12 @@ class Reservatiesysteem:
             'Zaal': zaal,
             'Date': datum,
             'Film': filmslist,
+            '11.00': vroeger_slot,
             '14.30': _14u30,
             '17.00': _17u00,
             '20.00': _20u00,
             '22.30': _22u30,
+            '23.30': later_slot
         }
 
         my_data = pd.DataFrame(data=tabel)
